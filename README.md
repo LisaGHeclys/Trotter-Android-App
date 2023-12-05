@@ -1,3 +1,59 @@
+# Trotter Mobile
+> This is an Epitech end of study project.
+
+# Introduction
+Trotter Mobile is a key component of a larger project that includes a Web App and a Showcase Site. The project aims to support solo travelers by providing them with a comprehensive platform to help them plan and organize their journeys.
+
+The app is specifically designed to generate paths for solo travelers based on their preferences and interests. It will provide users with personalized recommendations on destinations, attractions, accommodations, and activities, taking into account factors such as budget, travel style, and duration of stay. Users can customize their itinerary based on their preferences and receive real-time updates and alerts as they travel.
+
+The development of Trotter is a significant undertaking that is expected to take three years to complete fully. The app will be available for both iOS and Android devices.
+
+## Technologies used
+- React Native
+- Mapbox
+- Gradlew
+- Jest
+
+## Prerequisites
+- Gradlew
+- React Native
+- Metro
+
+# How to name your branch and how to name your commit
+### Branches
+- What to do with the branches
+   - main : no push on main, it's forbidden. it represents the project on production.
+   - develop : every task that's finished and reviewed will be merged on develop.
+   - release : before every meeting with the group projects, a release is taken from develop to test every feature, when everything's corrected, it's merged on main and on develop.
+
+- How to branch
+  ```
+  feature/JIRACARD/TASK  
+  ```
+
+### Commits
+- How to commit
+  ```
+  [CLICKUPCARD](TYPE): description of what has been done 
+  ```
+
+- Type
+   - build : changes that directly affects the build system or dependency (npm etc...)
+   - ci : changes that affects the integrations files and scripts or configuration (github actions, automation etc...)
+   - add : add a new feature
+   - fix : correcting a bug or feature
+   - perf : performance improvement
+   - refactor : modification that doesn't include a new feature nor a perf improvement
+   - style : changes that doesn't affect any features (indents, linters, forgotten space etc...)
+   - docs : documentation
+   - test : adding or changes any tests concerning the project
+
+And you're all set to contribute to our project.
+
+# Useful ressources
+- [License](https://github.com/TrotterApp/mobile/blob/main/LICENSE.md)
+- [Code of Conduct](https://github.com/TrotterApp/mobile/blob/main/CODE_OF_CONDUCT.md)
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
