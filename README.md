@@ -1,5 +1,5 @@
 # Trotter Mobile
-> This is an Epitech end of study project.
+> This is an Epitech end of study project for  Android.
 
 # Introduction
 Trotter Mobile is a key component of a larger project that includes a Web App and a Showcase Site. The project aims to support solo travelers by providing them with a comprehensive platform to help them plan and organize their journeys.
