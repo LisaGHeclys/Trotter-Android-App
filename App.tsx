@@ -5,51 +5,48 @@
  * @format
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import LoadingComponent from "./src/core/component/LoadingComponent";
+import {NavigationContainer} from "@react-navigation/native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoginScreen from "./src/features/presentation/ui/authentication/Login";
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
+  let token: string | null = "";
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <LoadingComponent />
-    </SafeAreaView>
-  );
-}
+  const getToken = async () => {
+    token = await AsyncStorage.getItem("token");
+  }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView>
+        <LoadingComponent/>
+      </SafeAreaView>
+    )
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={"Login"}>
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+}
 
 export default App;
