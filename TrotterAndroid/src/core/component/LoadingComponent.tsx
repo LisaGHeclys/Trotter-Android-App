@@ -2,7 +2,11 @@ import React, {useEffect, useRef} from 'react';
 import { StyleSheet, View, Animated, Easing } from 'react-native';
 import TrotterLogo from "../assets/TrotterLogo";
 
-const LoadingComponent = () => {
+type LoadingComponentParams = {
+  opacity?: number,
+}
+
+const LoadingComponent = ({opacity = 0.75}: LoadingComponentParams) => {
   const scaleValue = useRef(new Animated.Value(1)).current;
 
   const startAnimation = () => {
@@ -29,7 +33,7 @@ const LoadingComponent = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles({opacity}).container}>
       <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
         <TrotterLogo />
       </Animated.View>
@@ -37,13 +41,16 @@ const LoadingComponent = () => {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = ({opacity}: LoadingComponentParams) => StyleSheet.create({
   container: {
+    position: "absolute",
     height: "100%",
+    width: "100%",
     display: "flex",
-    backgroundColor: "blue",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: `rgba(255, 255, 255, ${opacity})`,
+    zIndex: 5,
   }
 });
 
