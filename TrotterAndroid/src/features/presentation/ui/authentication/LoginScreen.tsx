@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -11,6 +11,7 @@ import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
 import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepositoryImpl.tsx";
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
+import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 
 const LoginScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,6 +43,7 @@ const LoginScreen = ({navigation}: any) => {
     } catch (error) {
       console.error('Unexpected error during login:', error);
     } finally {
+      setError(false);
       setIsLoading(false);
     }
   };
@@ -49,7 +51,10 @@ const LoginScreen = ({navigation}: any) => {
   return (
     <>
       <View style={authenticationStyle.container}>
-        <Text style={authenticationStyle.pageTitle}>
+        <Text
+          style={authenticationStyle.pageTitle}
+          onPress={() => {ChangeScreen({navigation, destination: "Register", functionsToClear: [setEmail, setPassword]})}}
+        >
           Sign Up
         </Text>
         <TrotterLogo />
@@ -63,7 +68,7 @@ const LoginScreen = ({navigation}: any) => {
             <View style={authenticationStyle.errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
               <Text style={authenticationStyle.errorText}>
-                Couldn't find your Trotter Account
+                Couldn't find your Trotter Account.
               </Text>
             </View>
           )}
@@ -71,7 +76,7 @@ const LoginScreen = ({navigation}: any) => {
             Forgot Password ?
           </Text>*/}
         </View>
-        <ButtonComponent title={"Log In"} onPress={handleLogin} disabled={!emailRegex.test(email)} />
+        <ButtonComponent title={"Log In"} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
       </View>
       {isLoading && <LoadingComponent/>}
     </>
