@@ -22,14 +22,15 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
   async register(email: string, pwd: string, callback: AuthCallback): Promise<void> {
     try {
-      const result = await fetch(`${MOBILE_SERVER_URL}/auth/register`, {
+      const response = await fetch(`${MOBILE_SERVER_URL}/auth/register`, {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify({email: email, password: pwd})
+        body: JSON.stringify({
+          username: email,
+          email: email,
+          password: pwd})
       })
-      const resToJSON = await result.json();
-      if (!result?.ok) throw new Error(resToJSON?.Message);
-      callback.onSuccess(resToJSON?.accessToken);
+      callback.onSuccess(response);
     } catch (error: any) {
       callback.onFailure("An error occurred while creating a new user");
       //toSetup Toaster for mobile
