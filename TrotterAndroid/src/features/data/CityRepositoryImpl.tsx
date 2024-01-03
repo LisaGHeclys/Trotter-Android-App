@@ -1,9 +1,9 @@
 import {CityRepository} from "../domain/CityRepository.tsx";
-import {AuthCallback, headers} from "../../core/utils/ApiUtils.ts";
+import {Callback, headers} from "../../core/utils/ApiUtils.ts";
 
 class CityRepositoryImpl implements CityRepository {
-  async getCoordinates(cityName: string, callback: AuthCallback): Promise<void> {
-    const MOBILE_OTM_KEY = process.env.MOBILE_OTM_KEY;
+  async getCoordinates(cityName: string, callback: Callback): Promise<void> {
+    const MOBILE_OTM_KEY = process.env.REACT_APP_MOBILE_OTM_KEY;
     try {
       const response = await fetch(`https://api.opentripmap.com/0.1/en/places/geoname?name=${cityName}&apikey=${MOBILE_OTM_KEY}`, {
         headers: headers,

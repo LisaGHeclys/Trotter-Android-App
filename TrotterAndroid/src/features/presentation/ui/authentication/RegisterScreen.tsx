@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import {View, Text} from 'react-native';
-import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
-import {authenticationStyle} from "./AuthenticationStyle.tsx";
-import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
-import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepositoryImpl.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import InputComponent from "../../../../core/component/InputComponent.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
-import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
+import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
+import InputComponent from "../../../../core/component/InputComponent.tsx";
+import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
 import {textStyle} from "../../../../core/utils/GlobalStyle.tsx";
+import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
+import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
+import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepositoryImpl.tsx";
+import {authenticationStyle} from "./AuthenticationStyle.tsx";
+import DividerComponent from "../../../../core/component/DividerComponent.tsx";
+import OAuthComponent from "./OAuthComponentList.tsx";
 
 const RegisterScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -80,6 +82,8 @@ const RegisterScreen = ({navigation}: any) => {
           )}
         </View>
         <ButtonComponent title={"Sign Up"} onPress={handleRegister} disabled={!emailRegex.test(email) || password === "" || confirmPassword === ""} />
+        <DividerComponent text={"Or With"}/>
+        <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
     </>

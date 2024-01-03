@@ -38,7 +38,7 @@ const styles = ({backgroundColor}: InputProps) => StyleSheet.create({
   container: {
     paddingLeft: 20,
     paddingRight: 20,
-    margin: 15,
+    margin: 5,
     height: 45,
     width: "80%",
     backgroundColor: backgroundColor,
