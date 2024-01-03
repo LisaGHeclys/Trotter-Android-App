@@ -10,3 +10,13 @@ export const textStyle = StyleSheet.create({
         fontWeight: "700",
     }
 })
+
+export const weekColors: { primary: string; secondary: string }[] = [
+    { primary: "red", secondary: "lightcoral" },
+    { primary: "blue", secondary: "lightblue" },
+    { primary: "green", secondary: "lightgreen" },
+    { primary: "yellow", secondary: "lightyellow" },
+    { primary: "orange", secondary: "orange" },
+    { primary: "purple", secondary: "purple" },
+    { primary: "brown", secondary: "lightbrown" }
+];
