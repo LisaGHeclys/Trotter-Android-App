@@ -95,7 +95,7 @@ const UserHomeScreen = ({navigation}: any) => {
   }
 
   useEffect(() => {
-    handleGenerateTrip();
+    city !== "" && handleGenerateTrip();
   }, [tripData]);
 
   useEffect(() => {
