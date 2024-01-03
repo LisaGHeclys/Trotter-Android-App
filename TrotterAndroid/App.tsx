@@ -1,23 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from "@react-navigation/native";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faGear, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
 import LoadingComponent from "./src/core/component/LoadingComponent";
 import LoginScreen from "./src/features/presentation/ui/authentication/LoginScreen.tsx";
 import RegisterScreen from './src/features/presentation/ui/authentication/RegisterScreen.tsx';
 import LandingScreen from "./src/features/presentation/ui/LandingScreen.tsx";
 import UserSettingsScreen from "./src/features/presentation/ui/user/UserSettingsScreen.tsx";
+import UserHomeScreen from "./src/features/presentation/ui/user/UserHomeScreen.tsx";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const TabsNavigation = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName={"Home"}
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={UserHomeScreen}
+        options={{
+          tabBarLabel: () => {return null},
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon icon={faMapLocationDot} />
+            //need to put active and inactive colors
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={UserSettingsScreen}
+        options={{
+          tabBarLabel:() => {return null},
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon icon={faGear} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,6 +57,7 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  //to define later with Justine
 
   const getToken = async () => {
     setIsLoading(true);
@@ -54,12 +86,12 @@ const App = () => {
     return (
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={token === ""  || token === null ? "Landing" : "Home"}
+          initialRouteName={token != null ? "UserTabs" : "Landing"}
           screenOptions={{
             headerShown: false
           }}
         >
-          <Stack.Screen name="Home" component={UserSettingsScreen} />
+          <Stack.Screen name="UserTabs" component={TabsNavigation}/>
           <Stack.Screen name="Landing" component={LandingScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />

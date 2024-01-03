@@ -29,10 +29,10 @@ const RegisterScreen = ({navigation}: any) => {
             try {
               const resToJSON = await response.json();
               if (response.ok) {
-                await AsyncStorage.setItem("token", resToJSON.accessToken)
-                navigation.navigate("Home");
+                await AsyncStorage.setItem("token", resToJSON?.accessToken)
+                navigation.navigate("UserTabs");
               } else {
-                throw new Error(resToJSON?.Message || 'Unknown error');
+                throw new Error(resToJSON?.Message || 'Unknown error.');
               }
             } catch (jsonError) {
               console.error('JSON parse failed. Error:', jsonError);
