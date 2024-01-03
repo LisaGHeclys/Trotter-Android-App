@@ -9,6 +9,8 @@ import InputComponent from "../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {weekColors} from "../../../../core/utils/GlobalStyle.tsx";
+import Routes from "./Routes.tsx";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
@@ -32,6 +34,10 @@ const UserHomeScreen = ({navigation}: any) => {
       };
     }[];
   } | null>(null);
+  const [routes, setRoutes] = useState<{
+    [id: string]: Mapbox.VectorSource;
+  }>({});
+  const [itineraryDay, setItineraryDay] = useState<number>(3);
 
   const handleGenerateTrip = async () => {
     try {
@@ -40,6 +46,16 @@ const UserHomeScreen = ({navigation}: any) => {
           const dataToJSON = await response.json();
           if (response.ok) {
             setJsonData(dataToJSON);
+            if (dataToJSON.routes) {
+              for (const route of dataToJSON.routes) {
+                const index = dataToJSON.routes.indexOf(route);
+                if (!route) continue;
+                setRoutes((old) => ({
+                  ...old,
+                  [index]: route.route,
+                }));
+              }
+            }
           } else {
             throw new Error(dataToJSON?.code || 'Unknown error.');
           }
@@ -102,6 +118,12 @@ const UserHomeScreen = ({navigation}: any) => {
     getToken();
   }, []);
 
+  /*{Object.keys(routes).map((route, index) => (
+   <MapboxGL.ShapeSource id={index.toString()} shape={}>
+   <MapboxGL.LineLayer id={index.toString()} style={{lineColor: weekColors[index]}} />
+   </MapboxGL.ShapeSource>
+   ))}*/
+
   //should I request permission from here ?
   return (
     <>
@@ -116,11 +138,16 @@ const UserHomeScreen = ({navigation}: any) => {
           <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45}/>
         </View>
         <View style={styles.container}>
-          <Mapbox.MapView style={styles.map}>
+          <Mapbox.MapView
+            style={styles.map}
+            styleURL="mapbox://styles/mapbox/streets-v12"
+            projection="globe"
+          >
             <Mapbox.Camera
               centerCoordinate={[tripData.lon, tripData.lat]}
               zoomLevel={11.5}
             />
+
           </Mapbox.MapView>
         </View>
       </View>
