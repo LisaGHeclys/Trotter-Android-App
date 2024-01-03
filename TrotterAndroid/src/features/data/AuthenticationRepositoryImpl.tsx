@@ -1,6 +1,5 @@
-import {AuthCallback, AuthenticationRepository} from "../domain/AuthenticationRepository.tsx";
-import {headers} from "../../core/utils/ApiUtils.ts";
-import {MOBILE_SERVER_URL} from '@env';
+import {AuthenticationRepository} from "../domain/AuthenticationRepository.tsx";
+import {AuthCallback, headers, MOBILE_SERVER_URL} from "../../core/utils/ApiUtils.ts";
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   async login(email: string, pwd: string, callback: AuthCallback): Promise<void> {

@@ -7,13 +7,26 @@ type InputParams = {
   setValue: React.Dispatch<React.SetStateAction<string>>,
   pwd?: boolean,
   iconRight?: string,
+  backgroundColor?: string,
 }
 
-const InputComponent: React.FC<InputParams> = ({placeholder, value, setValue, pwd = false, iconRight }) => {
+type InputProps = {
+  backgroundColor: string,
+}
+
+const InputComponent: React.FC<InputParams> =
+  ({
+     placeholder,
+     value,
+     setValue,
+     pwd = false,
+     iconRight,
+     backgroundColor= "transparent",
+  }) => {
   return (
     <TextInput
       value={value}
-      style={styles.container}
+      style={styles({backgroundColor}).container}
       placeholder={placeholder}
       onChangeText={(text) => setValue(text)}
       secureTextEntry={pwd}
@@ -21,14 +34,14 @@ const InputComponent: React.FC<InputParams> = ({placeholder, value, setValue, pw
   )
 }
 
-const styles = StyleSheet.create({
+const styles = ({backgroundColor}: InputProps) => StyleSheet.create({
   container: {
     paddingLeft: 20,
     paddingRight: 20,
     margin: 15,
     height: 45,
     width: "80%",
-    backgroundColor: "transparent",
+    backgroundColor: backgroundColor,
     borderWidth: 1,
     borderColor: "#AAA",
     borderRadius: 10,

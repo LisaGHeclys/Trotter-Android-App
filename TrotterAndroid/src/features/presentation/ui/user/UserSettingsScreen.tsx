@@ -9,6 +9,7 @@ const UserSettingsScreen = ({navigation}: any) => {
     navigation.navigate("Landing");
   }
 
+  //follow classic layer with profile photo of user
   return (
     <View>
       <Text>

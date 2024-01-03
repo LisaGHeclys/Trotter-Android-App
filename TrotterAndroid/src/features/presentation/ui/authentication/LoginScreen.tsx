@@ -12,6 +12,7 @@ import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
 import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepositoryImpl.tsx";
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
+import {MOBILE_OTM_KEY, MOBILE_SERVER_URL} from "@env";
 
 const LoginScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -27,10 +28,11 @@ const LoginScreen = ({navigation}: any) => {
           try {
             const resToJSON = await response.json();
             if (response.ok) {
-              await AsyncStorage.setItem("token", resToJSON.accessToken)
-              navigation.navigate("Home");
+              console.log(resToJSON?.accessToken);
+              await AsyncStorage.setItem("token", resToJSON?.accessToken)
+              navigation.navigate("UserTabs");
             } else {
-              throw new Error(resToJSON?.Message || 'Unknown error');
+              throw new Error(resToJSON?.Message || 'Unknown error.');
             }
           } catch (jsonError) {
             setError(true);

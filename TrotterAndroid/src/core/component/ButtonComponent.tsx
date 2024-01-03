@@ -7,20 +7,22 @@ export enum ThemeEnum {
 }
 
 type ButtonParams = {
-  title: string,
+  title?: string,
   theme?: ThemeEnum,
   onPress: () => void,
   disabled?: boolean,
+  width?: number,
 }
 
 type ButtonProps = {
   theme?: ThemeEnum,
   disabled?: boolean,
+  width?: number,
 }
 
-const ButtonComponent: React.FC<ButtonParams> = ({title, theme = ThemeEnum.Primary, onPress, disabled = false }) => {
+const ButtonComponent: React.FC<ButtonParams> = ({title, theme = ThemeEnum.Primary, onPress, disabled = false, width = 160}) => {
   return (
-    <Pressable style={styles({theme, disabled}).container} onPress={onPress} disabled={disabled}>
+    <Pressable style={styles({theme, disabled, width}).container} onPress={onPress} disabled={disabled}>
       <Text style={styles({theme, disabled}).title}>
         {title}
       </Text>
@@ -28,10 +30,10 @@ const ButtonComponent: React.FC<ButtonParams> = ({title, theme = ThemeEnum.Prima
   )
 }
 
-const styles = ({theme, disabled}: ButtonProps) => StyleSheet.create({
+const styles = ({theme, disabled, width}: ButtonProps) => StyleSheet.create({
   container: {
     height: 45,
-    width: 160,
+    width: width,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: theme === ThemeEnum.Primary ? "transparent" : "#000000",
