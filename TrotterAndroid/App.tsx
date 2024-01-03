@@ -64,6 +64,7 @@ const App = () => {
     try {
       const retrieveToken = await AsyncStorage.getItem('token');
       setToken(retrieveToken as string);
+      console.log(retrieveToken);
     } catch (error) {
       console.error('Error retrieving token:', error);
       return null;
@@ -74,7 +75,6 @@ const App = () => {
   useEffect(() => {
     getToken();
   }, []);
-
 
   if (isLoading) {
     return (

@@ -10,7 +10,7 @@ import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-MapboxGL.setAccessToken(process.env.MAPBOX_DOWNLOADS_TOKEN || '');
+MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
 const UserHomeScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

@@ -4,9 +4,9 @@ export const headers = {
   "Access-Control-Allow-Origin": "*"
 };
 
-export interface AuthCallback {
+export interface Callback {
   onSuccess: (response: Response) => void;
   onFailure: (error: string) => void;
 }
 
-export const MOBILE_SERVER_URL = process.env.MOBILE_SERVER_URL
+export const MOBILE_SERVER_URL = process.env.REACT_APP_MOBILE_SERVER_URL

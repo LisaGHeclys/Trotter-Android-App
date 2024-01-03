@@ -1,5 +1,5 @@
-import {AuthCallback} from "../../core/utils/ApiUtils.ts";
+import {Callback} from "../../core/utils/ApiUtils.ts";
 
 export interface CityRepository {
-  getCoordinates: (cityName: string, callback: AuthCallback) => void;
+  getCoordinates: (cityName: string, callback: Callback) => void;
 }

@@ -1,5 +1,5 @@
 import {TripsRepository} from "../domain/TripsRepository.tsx";
-import {AuthCallback, headers, MOBILE_SERVER_URL} from "../../core/utils/ApiUtils.ts";
+import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/ApiUtils.ts";
 
 class TripsRepositoryImpl implements TripsRepository {
   async delete(id: string): Promise<void> {
@@ -8,7 +8,7 @@ class TripsRepositoryImpl implements TripsRepository {
   async edit(name: string, groupId: string, mapping: {}, properties: {}): Promise<void> {
   }
 
-  async generate(token: string, lon: number, lat: number, days: number, callback: AuthCallback): Promise<void> {
+  async generate(token: string, lon: number, lat: number, days: number, callback: Callback): Promise<void> {
     try {
       const response = await fetch(`${MOBILE_SERVER_URL}/IA`, {
         method: 'POST',

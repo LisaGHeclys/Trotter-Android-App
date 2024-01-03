@@ -8,11 +8,12 @@ import InputComponent from "../../../../core/component/InputComponent.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
 import {textStyle} from "../../../../core/utils/GlobalStyle.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
+import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
 import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepositoryImpl.tsx";
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
-import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
-import {MOBILE_OTM_KEY, MOBILE_SERVER_URL} from "@env";
+import DividerComponent from "../../../../core/component/DividerComponent.tsx";
+import OAuthComponent from "./OAuthComponentList.tsx";
 
 const LoginScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -79,6 +80,8 @@ const LoginScreen = ({navigation}: any) => {
           </Text>*/}
         </View>
         <ButtonComponent title={"Log In"} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
+        <DividerComponent text={"Or With"}/>
+        <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
     </>
