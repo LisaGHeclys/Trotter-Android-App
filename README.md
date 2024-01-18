@@ -33,6 +33,7 @@ The development of Trotter is a significant undertaking that is expected to take
   - Type of task :
     - feature
     - bugfix
+    - patch
     - wip
     - tests
     - documentation
