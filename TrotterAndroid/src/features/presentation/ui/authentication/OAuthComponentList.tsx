@@ -33,7 +33,7 @@ const OAuthComponent = ({title, icon, setIsLoading}: OAuthParams) => {
 
   return (
     <Pressable onPress={handleOAuth}>
-      <FontAwesomeIcon icon={icon} size={45}/>
+      <FontAwesomeIcon icon={icon} size={40}/>
     </Pressable>
   )
 }
@@ -50,8 +50,8 @@ const OAuthComponentList = ({setIsLoading}: OAuthComponentProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     width: "80%",
     display: "flex",
     flexDirection: "row",

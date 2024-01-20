@@ -14,6 +14,7 @@ export const authenticationStyle = StyleSheet.create({
   container: {
     height: "100%",
     display: "flex",
+    flex: 1,
     alignItems: "center",
   },
   underContainer: {
