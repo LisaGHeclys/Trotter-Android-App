@@ -18,7 +18,7 @@ const DividerComponent = ({text}: DividerParams) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 15,
+    paddingTop: 20,
     paddingBottom: 15,
     width: "80%",
     display: "flex",

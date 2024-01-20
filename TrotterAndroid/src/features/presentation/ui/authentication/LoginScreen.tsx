@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
@@ -52,7 +52,7 @@ const LoginScreen = ({navigation}: any) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <View style={authenticationStyle.container}>
         <Text
           style={authenticationStyle.pageTitle}
@@ -65,7 +65,12 @@ const LoginScreen = ({navigation}: any) => {
           Welcome back !
         </Text>
         <InputComponent value={email} placeholder={"Email"} setValue={setEmail}/>
-        <InputComponent value={password} placeholder={"Password"} setValue={setPassword} pwd/>
+        <InputComponent
+          value={password}
+          placeholder={"Password"}
+          setValue={setPassword}
+          pwd
+        />
         <View style={authenticationStyle.underContainer}>
           {error && (
             <View style={authenticationStyle.errorContainer}>
@@ -76,15 +81,15 @@ const LoginScreen = ({navigation}: any) => {
             </View>
           )}
           {/*<Text style={authenticationStyle.forgotPasswordText}>
-            Forgot Password ?
-          </Text>*/}
+               Forgot Password ?
+             </Text>*/}
         </View>
         <ButtonComponent title={"Log In"} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
         <DividerComponent text={"Or With"}/>
         <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
-    </>
+    </ScrollView>
   )
 }
 

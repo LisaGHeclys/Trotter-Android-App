@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView, Keyboard} from 'react-native';
 import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
@@ -25,19 +25,16 @@ const UserHomeScreen = ({navigation}: any) => {
     cityName: "Lyon",
   })
   const [jsonData, setJsonData] = useState<{
-    features: {
-      geometry: {
-        coordinates: number[];
-      };
-      properties: {
-        name: string;
-      };
-    }[];
+    features: GeoJSON.FeatureCollection,
+    routes: [
+      {
+        route: GeoJSON.FeatureCollection,
+        tripLegData: any[],
+        visitOrder: number[],
+      }
+    ],
   } | null>(null);
-  const [routes, setRoutes] = useState<{
-    [id: string]: Mapbox.VectorSource;
-  }>({});
-  const [itineraryDay, setItineraryDay] = useState<number>(3);
+  const [itineraryDay, setItineraryDay] = useState<number>(1);
 
   const handleGenerateTrip = async () => {
     try {
@@ -46,18 +43,8 @@ const UserHomeScreen = ({navigation}: any) => {
           const dataToJSON = await response.json();
           if (response.ok) {
             setJsonData(dataToJSON);
-            if (dataToJSON.routes) {
-              for (const route of dataToJSON.routes) {
-                const index = dataToJSON.routes.indexOf(route);
-                if (!route) continue;
-                setRoutes((old) => ({
-                  ...old,
-                  [index]: route.route,
-                }));
-              }
-            }
           } else {
-            throw new Error(dataToJSON?.code || 'Unknown error.');
+            console.error(dataToJSON?.code || 'Unknown error.');
           }
         },
         onFailure: (error) => {
@@ -72,6 +59,7 @@ const UserHomeScreen = ({navigation}: any) => {
   }
 
   const handleSearchCity = async () => {
+    Keyboard.dismiss();
     setIsLoading(true);
     try {
       await CityRepositoryImpl.getCoordinates(city, {
@@ -84,6 +72,7 @@ const UserHomeScreen = ({navigation}: any) => {
                 lon: resToJSON?.lon,
                 cityName: resToJSON?.name,
               })
+              setCity('');
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
@@ -118,12 +107,6 @@ const UserHomeScreen = ({navigation}: any) => {
     getToken();
   }, []);
 
-  /*{Object.keys(routes).map((route, index) => (
-   <MapboxGL.ShapeSource id={index.toString()} shape={}>
-   <MapboxGL.LineLayer id={index.toString()} style={{lineColor: weekColors[index]}} />
-   </MapboxGL.ShapeSource>
-   ))}*/
-
   //should I request permission from here ?
   return (
     <>
@@ -145,9 +128,47 @@ const UserHomeScreen = ({navigation}: any) => {
           >
             <Mapbox.Camera
               centerCoordinate={[tripData.lon, tripData.lat]}
-              zoomLevel={11.5}
+              zoomLevel={12.5}
             />
-
+            {jsonData && jsonData?.routes.flatMap((route, index) => (
+              <MapboxGL.ShapeSource key={`route${index}`} id={`route${index}`} shape={{type: "FeatureCollection", features: route.route.features}}>
+                <MapboxGL.LineLayer
+                  id={`routeLine-active${index}`}
+                  style={{
+                    lineJoin: "round",
+                    lineCap: "round",
+                    lineColor: weekColors[index % 7].primary,
+                    lineWidth:
+                      itineraryDay === index
+                        ? ["interpolate", ["linear"], ["zoom"], 12, 3, 22, 12]
+                        : ["interpolate", ["linear"], ["zoom"], 4, 1, 6, 4],
+                    lineOpacity: itineraryDay === index ? 1 : 0.3,
+                    lineWidthTransition: {
+                      delay: 0,
+                      duration: 300
+                    },
+                    lineOpacityTransition: {
+                      delay: 0,
+                      duration: 300
+                    },
+                  }}
+                />
+                <MapboxGL.SymbolLayer
+                  id={`routeArrows${index}`}
+                  style={{
+                    symbolPlacement: "line",
+                    textField: "▶",
+                    textSize: ["interpolate", ["linear"], ["zoom"], 12, 24, 22, 60],
+                    symbolSpacing: ["interpolate", ["linear"], ["zoom"], 12, 30, 22, 160],
+                    textKeepUpright: false,
+                    textColor: weekColors[index].secondary,
+                    textHaloColor: "hsl(55, 11%, 96%)",
+                    textHaloWidth: 2,
+                    textOpacity: itineraryDay === index ? 1 : 0
+                  }}
+                />
+              </MapboxGL.ShapeSource>
+            ))}
           </Mapbox.MapView>
         </View>
       </View>

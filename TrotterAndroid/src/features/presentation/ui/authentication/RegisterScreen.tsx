@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import { useHeaderHeight } from '@react-navigation/elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
@@ -21,6 +22,7 @@ const RegisterScreen = ({navigation}: any) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const headerHeight = useHeaderHeight();
 
   const handleRegister = async () => {
     if (password === confirmPassword) {
@@ -56,7 +58,7 @@ const RegisterScreen = ({navigation}: any) => {
   }
 
   return (
-    <>
+    <ScrollView>
       <View style={authenticationStyle.container}>
         <Text
           style={authenticationStyle.pageTitle}
@@ -86,7 +88,7 @@ const RegisterScreen = ({navigation}: any) => {
         <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
-    </>
+    </ScrollView>
   )
 }
 
