@@ -13,6 +13,8 @@ import RegisterScreen from './src/features/presentation/ui/authentication/Regist
 import LandingScreen from "./src/features/presentation/ui/LandingScreen.tsx";
 import UserSettingsScreen from "./src/features/presentation/ui/user/UserSettingsScreen.tsx";
 import UserHomeScreen from "./src/features/presentation/ui/user/UserHomeScreen.tsx";
+import i18next from 'i18next';
+import "./src/core/i18n/config";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,6 +52,13 @@ const TabsNavigation = () => {
   );
 }
 
+const InitI18N = async () => {
+  const language = await AsyncStorage.getItem('language');
+  if (language) {
+    i18next.changeLanguage(language);
+  }
+}
+
 const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
@@ -70,6 +79,8 @@ const App = () => {
     }
     setIsLoading(false)
   }
+
+  InitI18N();
 
   useEffect(() => {
     getToken();

@@ -1,0 +1,42 @@
+{
+    "WelcomeToTrotter": "Welcome to Trotter!",
+    "Email": "Email",
+    "Password": "Password",
+    "OrWith": "Or with",
+    "WIP": "in development...",
+    "Yes": "Yes",
+    "No": "No",
+    "Cancel": "Cancel",
+    "Save": "Save",
+    "Delete": "Delete",
+    "Submit": "Submit",
+    "Settings": "Settings",
+    "Login": {
+        "LogIn": "Log in",
+        "NotFound": "Couldn't find your Trotter Account.",
+        "ForgotPassword": "Forgot your password ?",
+        "WelcomeBack": "Welcome back !"
+    },
+    "Register": {
+        "CreateAccount": "Create an account",
+        "ConfirmPass": "Confirm Password",
+        "PasswordMismatch": "The passwords doesn't match.",
+        "SignUp": "Sign Up",
+        "CreateNew": "Create a new account !"
+    },
+    "User": {
+        "EmailInput": "User email to input",
+        "LogOut": "Log out",
+        "Profile": "Profile",
+        "ChangePassword": "Change Password",
+        "ChangeEmail": "Change Email",
+        "DeleteAccount": "Delete Account",
+        "DeleteAccountConfirm": "Are you sure you want to delete your account ?"
+    },
+    "Language": {
+        "Language": "Language",
+        "Select": "Select language",
+        "en": "English",
+        "fr": "French"
+    }
+}

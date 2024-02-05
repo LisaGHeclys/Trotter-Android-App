@@ -3,13 +3,15 @@ import {StyleSheet, Text, View} from 'react-native';
 import TrotterLogo from "../../../core/assets/TrotterLogo.tsx";
 import {textStyle} from "../../../core/utils/GlobalStyle.tsx";
 import ButtonComponent, {ThemeEnum} from "../../../core/component/ButtonComponent.tsx";
+import { useTranslation } from "react-i18next";
 
 const LandingScreen = ({navigation}: any) => {
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <TrotterLogo />
       <Text style={textStyle.title}>
-        Welcome to Trotter !
+        {t("WelcomeToTrotter")}
       </Text>
       <ButtonComponent title={"Sign In"} onPress={() => navigation.navigate("Login")}/>
       <View style={styles.spacer}/>

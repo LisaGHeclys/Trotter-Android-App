@@ -14,12 +14,14 @@ import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepository
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import DividerComponent from "../../../../core/component/DividerComponent.tsx";
 import OAuthComponent from "./OAuthComponentList.tsx";
+import { useTranslation } from "react-i18next";
 
 const LoginScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const {t} = useTranslation();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -58,16 +60,16 @@ const LoginScreen = ({navigation}: any) => {
           style={authenticationStyle.pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Register", functionsToClear: [setEmail, setPassword]})}}
         >
-          Sign Up
+          {t("Register.SignUp")}
         </Text>
         <TrotterLogo />
         <Text style={textStyle.title}>
-          Welcome back !
+          {t("Login.WelcomeBack")}
         </Text>
-        <InputComponent value={email} placeholder={"Email"} setValue={setEmail}/>
+        <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
         <InputComponent
           value={password}
-          placeholder={"Password"}
+          placeholder={t("Password")}
           setValue={setPassword}
           pwd
         />
@@ -76,16 +78,16 @@ const LoginScreen = ({navigation}: any) => {
             <View style={authenticationStyle.errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
               <Text style={authenticationStyle.errorText}>
-                Couldn't find your Trotter Account.
+                {t("Login.NotFound")}
               </Text>
             </View>
           )}
           {/*<Text style={authenticationStyle.forgotPasswordText}>
-               Forgot Password ?
+               {t("Login.ForgotPassword")}
              </Text>*/}
         </View>
-        <ButtonComponent title={"Log In"} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
-        <DividerComponent text={"Or With"}/>
+        <ButtonComponent title={t("Login.LogIn")} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
+        <DividerComponent text={t("OrWith")}/>
         <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
