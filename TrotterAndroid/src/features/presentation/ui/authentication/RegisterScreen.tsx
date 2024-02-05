@@ -15,6 +15,7 @@ import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepository
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import DividerComponent from "../../../../core/component/DividerComponent.tsx";
 import OAuthComponent from "./OAuthComponentList.tsx";
+import { useTranslation } from "react-i18next";
 
 const RegisterScreen = ({navigation}: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,6 +24,7 @@ const RegisterScreen = ({navigation}: any) => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const headerHeight = useHeaderHeight();
+  const {t} = useTranslation();
 
   const handleRegister = async () => {
     if (password === confirmPassword) {
@@ -64,27 +66,27 @@ const RegisterScreen = ({navigation}: any) => {
           style={authenticationStyle.pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Login", functionsToClear: [setEmail, setPassword, setConfirmPassword]})}}
         >
-          Log In
+          {t("Login.LogIn")}
         </Text>
         <TrotterLogo />
         <Text style={textStyle.title}>
-          Create a new account !
+          {t("Register.CreateNew")}
         </Text>
-        <InputComponent value={email} placeholder={"Email"} setValue={setEmail}/>
-        <InputComponent value={password} placeholder={"Password"} setValue={setPassword} pwd/>
-        <InputComponent value={confirmPassword} placeholder={"Confirm Password"} setValue={setConfirmPassword} pwd/>
+        <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
+        <InputComponent value={password} placeholder={t("Password")} setValue={setPassword} pwd/>
+        <InputComponent value={confirmPassword} placeholder={t("Register.ConfirmPass")} setValue={setConfirmPassword} pwd/>
         <View style={authenticationStyle.underContainer}>
           {error && (
             <View style={authenticationStyle.errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
               <Text style={authenticationStyle.errorText}>
-                The passwords doesn't match.
+                {t("Register.PasswordMismatch")}
               </Text>
             </View>
           )}
         </View>
-        <ButtonComponent title={"Sign Up"} onPress={handleRegister} disabled={!emailRegex.test(email) || password === "" || confirmPassword === ""} />
-        <DividerComponent text={"Or With"}/>
+        <ButtonComponent title={t("Register.SignUp")} onPress={handleRegister} disabled={!emailRegex.test(email) || password === "" || confirmPassword === ""} />
+        <DividerComponent text={t("OrWith")}/>
         <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
