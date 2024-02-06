@@ -38,5 +38,14 @@
         "Select": "Select language",
         "en": "English",
         "fr": "French"
+    },
+    "AppTour": {
+        "Map": "Hey, welcome to the Trotter app tour !\n\nThis is the map, where you can see all the iteneraries we plan for you !",
+        "Search": "You can search for iteneraries here !",
+        "SearchConfirm": "And once you know what you're looking for, you can press this button, try looking for an itenary in Lyon !",
+        "Prev": "Previous",
+        "Next": "Next",
+        "Skip": "Skip",
+        "Done": "Done"
     }
 }

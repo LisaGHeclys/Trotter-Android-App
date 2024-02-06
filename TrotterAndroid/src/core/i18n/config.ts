@@ -12,10 +12,11 @@ export const resources = {
     }
 };
 
-i18next.use(initReactI18next).init({
-    compatibilityJSON: 'v3',
-    lng: "en", // if you're using a language detector, do not define the lng option
-    debug: true,
-    fallbackLng: "en",
-    resources
-});
+if (!i18next.isInitialized)
+    i18next.use(initReactI18next).init({
+        compatibilityJSON: 'v3',
+        lng: "en", // if you're using a language detector, do not define the lng option
+        debug: true,
+        fallbackLng: "en",
+        resources
+    });

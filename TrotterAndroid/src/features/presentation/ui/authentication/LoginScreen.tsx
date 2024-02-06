@@ -33,6 +33,7 @@ const LoginScreen = ({navigation}: any) => {
             if (response.ok) {
               console.log(resToJSON?.accessToken);
               await AsyncStorage.setItem("token", resToJSON?.accessToken)
+              await AsyncStorage.setItem("isTourGuideDone", 'false')
               navigation.navigate("UserTabs");
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');

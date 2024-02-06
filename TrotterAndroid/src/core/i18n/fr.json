@@ -38,5 +38,14 @@
         "Select": "Sélectionner une langue",
         "en": "English",
         "fr": "French"
+    },
+    "AppTour": {
+        "Map": "Hey, Bienvenue sur la présentation de l'application Trotter!\n\nÇa, c'est la map ! Ici tu retrouveras l'itinéraire qu'on te générera !",
+        "Search": "Ici, tu peux taper le nom d'une ville pour générer un itinéraire !",
+        "SearchConfirm": "Et quand tu sais dans quelle ville tu veux aller, tu peux appuyer ici pour lancer la génération, essaie avec la ville de Lyon !",
+        "Prev": "Précédent",
+        "Next": "Suivant",
+        "Skip": "Passer le tutoriel",
+        "Done": "Fin !"
     }
 }
