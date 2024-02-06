@@ -36,6 +36,7 @@ const RegisterScreen = ({navigation}: any) => {
               const resToJSON = await response.json();
               if (response.ok) {
                 await AsyncStorage.setItem("token", resToJSON?.accessToken)
+                await AsyncStorage.setItem("isTourGuideDone", 'false')
                 navigation.navigate("UserTabs");
               } else {
                 throw new Error(resToJSON?.Message || 'Unknown error.');

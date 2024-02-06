@@ -1,20 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, Keyboard} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, Keyboard } from 'react-native';
 import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {TripDataParams} from "../../../model/TripsModel.tsx";
+import { TripDataParams } from "../../../model/TripsModel.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {weekColors} from "../../../../core/utils/GlobalStyle.tsx";
+import { weekColors } from "../../../../core/utils/GlobalStyle.tsx";
+import {
+  TourGuideZone,
+  TourGuideZoneByPosition,
+  useTourGuideController,
+} from 'rn-tourguide'
 import Routes from "./Routes.tsx";
+import { useTranslation } from "react-i18next";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
-const UserHomeScreen = ({navigation}: any) => {
+
+
+const UserHomeScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
@@ -35,6 +43,43 @@ const UserHomeScreen = ({navigation}: any) => {
     ],
   } | null>(null);
   const [itineraryDay, setItineraryDay] = useState<number>(1);
+  const { t } = useTranslation();
+
+  const {
+    canStart,
+    start,
+    stop,
+    eventEmitter,
+  } = useTourGuideController()
+
+  const RunTourGuide = async () => {
+    if (canStart && await AsyncStorage.getItem("isTourGuideDone") === 'false') {
+      start()
+      AsyncStorage.setItem("isTourGuideDone",'true')
+    }
+  }
+
+  useEffect(() => {
+    RunTourGuide()
+  }, [canStart])
+
+  const handleOnStart = () => console.log('Start tour')
+  const handleOnStop = () => console.log('Tour done')
+  const handleOnStepChange = () => console.log(`Tour next`)
+
+  React.useEffect(() => {
+    if (eventEmitter == null) { return }
+
+    eventEmitter.on('start', handleOnStart)
+    eventEmitter.on('stop', handleOnStop)
+    eventEmitter.on('stepChange', handleOnStepChange)
+
+    return () => {
+      eventEmitter.off('start', handleOnStart)
+      eventEmitter.off('stop', handleOnStop)
+      eventEmitter.off('stepChange', handleOnStepChange)
+    }
+  }, [])
 
   const handleGenerateTrip = async () => {
     try {
@@ -76,7 +121,7 @@ const UserHomeScreen = ({navigation}: any) => {
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
-          } catch (error) {}
+          } catch (error) { }
         },
         onFailure: (error) => {
           console.error('City search failed. Error:', error);
@@ -112,13 +157,17 @@ const UserHomeScreen = ({navigation}: any) => {
     <>
       <View style={styles.page}>
         <View style={styles.researchBar}>
-          <InputComponent
-            placeholder={"ex: Lyon"}
-            value={city}
-            setValue={setCity}
-            backgroundColor={"white"}
-          />
-          <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45}/>
+          <TourGuideZone zone={1} text={t("AppTour.Search")} borderRadius={16}>
+            <InputComponent
+              placeholder={"ex: Lyon"}
+              value={city}
+              setValue={setCity}
+              backgroundColor={"white"}
+            />
+          </TourGuideZone>
+          <TourGuideZone zone={2} text={t("AppTour.SearchConfirm")} borderRadius={16}>
+            <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45} />
+          </TourGuideZone>
         </View>
         <View style={styles.container}>
           <Mapbox.MapView
@@ -131,7 +180,7 @@ const UserHomeScreen = ({navigation}: any) => {
               zoomLevel={12.5}
             />
             {jsonData && jsonData?.routes.flatMap((route, index) => (
-              <MapboxGL.ShapeSource key={`route${index}`} id={`route${index}`} shape={{type: "FeatureCollection", features: route.route.features}}>
+              <MapboxGL.ShapeSource key={`route${index}`} id={`route${index}`} shape={{ type: "FeatureCollection", features: route.route.features }}>
                 <MapboxGL.LineLayer
                   id={`routeLine-active${index}`}
                   style={{
@@ -172,7 +221,7 @@ const UserHomeScreen = ({navigation}: any) => {
           </Mapbox.MapView>
         </View>
       </View>
-      {isLoading && <LoadingComponent opacity={0.95}/>}
+      {isLoading && <LoadingComponent opacity={0.95} />}
     </>
   )
 }
