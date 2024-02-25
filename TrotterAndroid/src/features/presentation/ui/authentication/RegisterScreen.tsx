@@ -23,7 +23,6 @@ const RegisterScreen = ({navigation}: any) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const headerHeight = useHeaderHeight();
   const {t} = useTranslation();
 
   const handleRegister = async () => {
