@@ -14,7 +14,6 @@
     "Login": {
         "LogIn": "Log in",
         "NotFound": "Couldn't find your Trotter Account.",
-        "ForgotPassword": "Forgot your password ?",
         "WelcomeBack": "Welcome back !"
     },
     "Register": {
@@ -23,6 +22,10 @@
         "PasswordMismatch": "The passwords doesn't match.",
         "SignUp": "Sign Up",
         "CreateNew": "Create a new account !"
+    },
+    "ForgotPassword": {
+        "ForgotPassword": "Forgot your password ?",
+        "EmailSent": "If your email is linked to an account, you will soon receive an email to reset your password."
     },
     "User": {
         "EmailInput": "User email to input",

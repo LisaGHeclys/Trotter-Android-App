@@ -78,14 +78,17 @@ const LoginScreen = ({navigation}: any) => {
           {error && (
             <View style={authenticationStyle.errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
-              <Text style={authenticationStyle.errorText}>
+              <Text
+                style={authenticationStyle.errorText}
+                onPress={() => {ChangeScreen({navigation, destination: "ForgotPassword", functionsToClear: [setEmail, setPassword]})}}
+              >
                 {t("Login.NotFound")}
               </Text>
             </View>
           )}
-          {/*<Text style={authenticationStyle.forgotPasswordText}>
-               {t("Login.ForgotPassword")}
-             </Text>*/}
+          <Text style={authenticationStyle.forgotPasswordText}>
+            {t("Login.ForgotPassword")}
+          </Text>
         </View>
         <ButtonComponent title={t("Login.LogIn")} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
         <DividerComponent text={t("OrWith")}/>
