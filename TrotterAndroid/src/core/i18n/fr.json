@@ -14,7 +14,6 @@
     "Login": {
         "Login": "Se connecter",
         "NotFound": "Nous n'avons pas pu trouver votre compte.",
-        "ForgotPassword": "Mot de passe oublié ?",
         "WelcomeBack": "Bon retour parmis nous !"
     },
     "Register": {
@@ -23,6 +22,10 @@
         "PasswordMismatch": "Le mot de passe est incorrect.",
         "SignUp": "S'inscrire",
         "CreateNew": "Créez un nouveau compte !"
+    },
+    "ForgotPassword": {
+        "ForgotPassword": "Mot de passe oublié ?",
+        "EmailSent": "Si votre email est relié à un compte, vous recevrez prochainement un email afin de réinitialisé votre mot de passe."
     },
     "User": {
         "EmailInput": "Entrez votre email",

@@ -62,7 +62,7 @@ const TabsNavigation = () => {
       {/*    ),*/}
       {/*  }}*/}
       {/*/>*/}
-      <Tab.Screen 
+      <Tab.Screen
         name="Settings"
         component={UserSettingsScreen}
         options={{
