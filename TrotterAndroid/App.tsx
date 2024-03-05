@@ -105,11 +105,8 @@ const App = () => {
     setIsLoading(false)
   }
 
-  InitI18N();
-
   useEffect(() => {
-    if (!i18next.isInitialized)
-      InitI18N();
+    InitI18N();
   }, []);
 
   useEffect(() => {
