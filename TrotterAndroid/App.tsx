@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import i18next from 'i18next';
 import "./src/core/i18n/config";
 import UserSavedTripsScreen from "./src/features/presentation/ui/user/UserSavedTripsScreen.tsx";
+import NotifService from './src/core/notifications/notificationsService.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,6 +85,8 @@ const InitI18N = async () => {
 }
 
 const App = () => {
+  const notif = new NotifService();
+  notif.localNotif();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const isDarkMode = useColorScheme() === 'dark';

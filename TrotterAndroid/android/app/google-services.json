@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "737627394626",
+    "project_id": "trotter-371510",
+    "storage_bucket": "trotter-371510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737627394626:android:95f54ee852457b3b0693db",
+        "android_client_info": {
+          "package_name": "com.trotterandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737627394626-ffoeo5ilej5bi2802g3ps8krs949nrk5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwdDBrZxDAR9pZTLJRW4v3mepAmkOH_98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737627394626-ffoeo5ilej5bi2802g3ps8krs949nrk5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
