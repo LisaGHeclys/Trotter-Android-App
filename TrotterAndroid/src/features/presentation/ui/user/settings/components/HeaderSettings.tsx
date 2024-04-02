@@ -6,6 +6,7 @@ import React from "react";
 import {useTranslation} from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {GlobalColors} from "../../../../../../core/utils/style/GlobalStyle.tsx";
+import Toaster from "../../../../../../core/utils/toaster/Toaster.tsx";
 
 type HeaderParams = {
   navigation?: any,
@@ -23,6 +24,7 @@ const HeaderSettings = ({navigation, title}: HeaderParams) => {
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
     navigation.navigate("Landing");
+    Toaster({type: 'success', title: "Settings.LogOut"});
   }
 
   return (

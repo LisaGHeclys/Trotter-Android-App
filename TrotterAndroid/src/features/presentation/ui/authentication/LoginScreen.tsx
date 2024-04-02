@@ -2,10 +2,6 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
   ScrollView,
   useColorScheme
 } from 'react-native';
@@ -24,6 +20,7 @@ import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import DividerComponent from "../../../../core/component/DividerComponent.tsx";
 import OAuthComponent from "./OAuthComponentList.tsx";
 import { useTranslation } from "react-i18next";
+import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
 const LoginScreen = ({navigation}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -42,7 +39,7 @@ const LoginScreen = ({navigation}: any) => {
             const resToJSON = await response.json();
             if (response.ok) {
               await AsyncStorage.setItem("token", resToJSON?.accessToken)
-              await AsyncStorage.setItem("isTourGuideDone", 'false')
+              await AsyncStorage.setItem("isTourGuideDone", 'true')
               navigation.navigate("UserTabs");
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
@@ -65,9 +62,9 @@ const LoginScreen = ({navigation}: any) => {
 
   return (
     <ScrollView>
-      <View style={authenticationStyle.container}>
+      <View style={authenticationStyle({isDarkMode}).container}>
         <Text
-          style={authenticationStyle.pageTitle}
+          style={authenticationStyle({isDarkMode}).pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Register", functionsToClear: [setEmail, setPassword]})}}
         >
           {t("Register.SignUp")}
@@ -83,19 +80,19 @@ const LoginScreen = ({navigation}: any) => {
           setValue={setPassword}
           pwd
         />
-        <View style={authenticationStyle.underContainer}>
+        <View style={authenticationStyle({isDarkMode}).underContainer}>
           {error && (
-            <View style={authenticationStyle.errorContainer}>
+            <View style={authenticationStyle({isDarkMode}).errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
               <Text
-                style={authenticationStyle.errorText}
+                style={authenticationStyle({isDarkMode}).errorText}
                 onPress={() => {ChangeScreen({navigation, destination: "ForgotPassword", functionsToClear: [setEmail, setPassword]})}}
               >
                 {t("Login.NotFound")}
               </Text>
             </View>
           )}
-          <Text style={authenticationStyle.forgotPasswordText}>
+          <Text style={authenticationStyle({isDarkMode}).forgotPasswordText}>
             {t("ForgotPassword.ForgotPassword")}
           </Text>
         </View>

@@ -11,6 +11,7 @@
     "Delete": "Supprimer",
     "Submit": "Valider",
     "Settings": {
+        "LogOut": "Déconnexion",
         "Parameters": "Paramètres",
         "PersonalInformation": "Information personnelle",
         "GeneralSettings": "Paramètre Généraux",
@@ -21,11 +22,15 @@
     },
     "Login": {
         "Login": "Se connecter",
+        "LoginFailed": "Echec de connexion ",
+        "LoginFailedText": "Votre email utilisateur ou votre mot de passe est incorrecte",
         "NotFound": "Nous n'avons pas pu trouver votre compte.",
         "WelcomeBack": "Bon retour parmis nous !"
     },
     "Register": {
         "CreateAccount": "Créer un compte",
+        "RegisterFailed": "Echec de création de compte",
+        "RegisterFailedText": "L'enregistrement de votre nouveau compte s'est interrompu",
         "ConfirmPass": "Confirmer le mot de passe",
         "PasswordMismatch": "Le mot de passe est incorrect.",
         "SignUp": "S'inscrire",
@@ -61,6 +66,18 @@
     },
     "Feedbacks": {
         "Title": "Titre",
+        "Create": {
+            "Success": "Ticket envoyé",
+            "Fail": "Envoi du ticket interrompu"
+        },
+        "Delete": {
+            "Success": "Ticket supprimé",
+            "Fail": "Supression du ticket interrompu"
+        },
+        "Update": {
+            "Success": "Ticket mis à jour",
+            "Fail": "Mise à jour du ticket interrompu"
+        },
         "Type": {
             "Select": "Selectionez la catégorie",
             "Search": "Recherchez une categorie...",
@@ -89,5 +106,9 @@
         "UserRightsText": "Vous avez le droit d'accéder, de corriger ou de supprimer vos informations personnelles. Vous pouvez également avoir le droit de vous opposer à certaines activités de traitement ou de les limiter. Veuillez vous référer à la section \"Droits des utilisateurs\" de cette Politique de confidentialité pour plus d'informations sur la manière d'exercer vos droits.\n",
         "ContactInformation": "Informations de contact",
         "ContactInformationText": "Si vous avez des questions, des préoccupations ou des demandes concernant notre Politique de confidentialité ou le traitement de vos informations personnelles, veuillez à ne pas nous contacter à l'adresse trotter.forward@gmail.com.\n"
+    },
+    "City": {
+        "CitySuccess": "Voyage généré avec succès",
+        "CityFail": "Génération de voyage interrompu"
     }
 }

@@ -34,6 +34,7 @@
     "react-native-screens": "^3.27.0",
     "react-native-sectioned-multi-select": "^0.10.0",
     "react-native-svg": "^14.1.0",
+    "react-native-toast-message": "^2.2.0",
     "react-native-vector-icons": "^10.0.3",
     "rn-tourguide": "^3.3.0"
   },

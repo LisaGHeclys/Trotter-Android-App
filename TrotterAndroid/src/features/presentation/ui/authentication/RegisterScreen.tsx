@@ -70,9 +70,9 @@ const RegisterScreen = ({navigation}: any) => {
 
   return (
     <ScrollView>
-      <View style={authenticationStyle.container}>
+      <View style={authenticationStyle({isDarkMode}).container}>
         <Text
-          style={authenticationStyle.pageTitle}
+          style={authenticationStyle({isDarkMode}).pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Login", functionsToClear: [setEmail, setPassword, setConfirmPassword]})}}
         >
           {t("Login.LogIn")}
@@ -84,11 +84,11 @@ const RegisterScreen = ({navigation}: any) => {
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
         <InputComponent value={password} placeholder={t("Password")} setValue={setPassword} pwd/>
         <InputComponent value={confirmPassword} placeholder={t("Register.ConfirmPass")} setValue={setConfirmPassword} pwd/>
-        <View style={authenticationStyle.underContainer}>
+        <View style={authenticationStyle({isDarkMode}).underContainer}>
           {error && (
-            <View style={authenticationStyle.errorContainer}>
+            <View style={authenticationStyle({isDarkMode}).errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
-              <Text style={authenticationStyle.errorText}>
+              <Text style={authenticationStyle({isDarkMode}).errorText}>
                 {t("Register.PasswordMismatch")}
               </Text>
             </View>

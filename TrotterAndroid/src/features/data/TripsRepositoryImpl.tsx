@@ -1,5 +1,6 @@
 import {TripsRepository} from "../domain/TripsRepository.tsx";
 import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
+import Toaster from "../../core/utils/toaster/Toaster.tsx";
 
 class TripsRepositoryImpl implements TripsRepository {
   async delete(id: string): Promise<void> {
@@ -23,9 +24,10 @@ class TripsRepositoryImpl implements TripsRepository {
         }),
       })
       callback.onSuccess(response);
+      Toaster({type: 'success', title: "City.CitySuccess"});
     } catch (error: any) {
       callback.onFailure(`An error occurred while generating the trip of the user ${error}`);
-      //toSetup Toaster for mobile
+      Toaster({type: 'error', title: "City.CityFail"});
     }
   }
 

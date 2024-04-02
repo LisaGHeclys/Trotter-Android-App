@@ -1,11 +1,11 @@
 import {StyleSheet} from "react-native";
 import {Colors} from "./GlobalColors.tsx";
 
-type TextStyleProps = {
+export type StyleProps = {
     isDarkMode: boolean,
 }
 
-export const textStyle= ({isDarkMode}: TextStyleProps) => StyleSheet.create({
+export const textStyle = ({isDarkMode}: StyleProps) => StyleSheet.create({
     title: {
         padding: 25,
         color: isDarkMode ? GlobalColors.writingColor.dark : GlobalColors.writingColor.light,

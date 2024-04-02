@@ -11,6 +11,7 @@
     "Delete": "Delete",
     "Submit": "Submit",
     "Settings": {
+        "LogOut": "Logged out",
         "Parameters": "Settings",
         "PersonalInformation": "Personal information",
         "GeneralSettings": "General settings",
@@ -21,11 +22,15 @@
     },
     "Login": {
         "LogIn": "Log in",
+        "LoginFailed": "Log in failed",
+        "LoginFailedText": "Your user email or password is incorrect",
         "NotFound": "Couldn't find your Trotter Account.",
         "WelcomeBack": "Welcome back !"
     },
     "Register": {
         "CreateAccount": "Create an account",
+        "RegisterFailed": "Registration failed",
+        "RegisterFailedText": "The registration of your account unexpectedly failed",
         "ConfirmPass": "Confirm Password",
         "PasswordMismatch": "The passwords doesn't match.",
         "SignUp": "Sign Up",
@@ -61,6 +66,18 @@
     },
     "Feedbacks": {
         "Title": "Title",
+        "Create": {
+            "Success": "Ticket sent",
+            "Fail": "Failed to send ticket"
+        },
+        "Delete": {
+            "Success": "Ticket deleted",
+            "Fail": "Failed to delete ticket"
+        },
+        "Update": {
+            "Success": "Ticket updated",
+            "Fail": "Failed to update ticket"
+        },
         "Type": {
             "Select": "Select the category",
             "Search": "Search category...",
@@ -89,5 +106,9 @@
         "UserRightsText": "You have the right to access, correct, or delete your personal information. You may also have the right to object to or restrict certain processing activities. Please refer to the \"User Rights\" section of this Privacy Policy for more information on how to exercise your rights.\n",
         "ContactInformation": "Contact Information",
         "ContactInformationText": "If you have any questions, concerns, or requests regarding our Privacy Policy or the handling of your personal information, please do not contact us at trotter.forward@gmail.com.\n"
+    },
+    "City": {
+        "CitySuccess": "Trip successfully generated",
+        "CityFail": "Trip generation failed"
     }
 }
