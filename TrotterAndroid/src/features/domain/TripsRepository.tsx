@@ -1,4 +1,4 @@
-import {Callback} from "../../core/utils/ApiUtils.ts";
+import {Callback} from "../../core/utils/api/ApiUtils.ts";
 
 export interface TripsRepository {
   delete: (id: string) => void;

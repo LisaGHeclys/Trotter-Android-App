@@ -1,116 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, useColorScheme } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {SafeAreaView, useColorScheme} from 'react-native';
+import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEarthEurope, faUser, faCompass, faHeart } from "@fortawesome/free-solid-svg-icons";
+import i18next from 'i18next';
+import { TourGuideProvider } from 'rn-tourguide';
+import { useTranslation } from "react-i18next";
 import LoadingComponent from "./src/core/component/LoadingComponent";
 import LoginScreen from "./src/features/presentation/ui/authentication/LoginScreen.tsx";
 import RegisterScreen from './src/features/presentation/ui/authentication/RegisterScreen.tsx';
 import LandingScreen from "./src/features/presentation/ui/LandingScreen.tsx";
-import UserSettingsScreen from "./src/features/presentation/ui/user/UserSettingsScreen.tsx";
-import UserHomeScreen from "./src/features/presentation/ui/user/UserHomeScreen.tsx";
 import ForgotPasswordScreen from "./src/features/presentation/ui/authentication/ForgotPasswordScreen.tsx";
-import { TourGuideProvider } from 'rn-tourguide';
-import { useTranslation } from "react-i18next";
-import i18next from 'i18next';
+import UserBottomBarNavigation from "./src/core/navigation/UserBottomBarNavigation.tsx";
 import "./src/core/i18n/config";
-import UserSavedTripsScreen from "./src/features/presentation/ui/user/UserSavedTripsScreen.tsx";
+import GetToken from "./src/core/utils/api/GetToken.tsx";
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-const TabsNavigation = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName={"Home"}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={UserHomeScreen}
-        options={{
-          tabBarLabel: () => { return null },
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faEarthEurope} size={25} />
-            //need to put active and inactive colors
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Trips"
-        component={UserSavedTripsScreen}
-        options={{
-          tabBarLabel: () => { return null },
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faCompass} size={25} />
-          ),
-        }}
-      />
-      {/*<Tab.Screen*/}
-      {/*  name="Liked ?"*/}
-      {/*  component={UserSettingsScreen}*/}
-      {/*  options={{*/}
-      {/*    tabBarLabel: () => { return null },*/}
-      {/*    tabBarIcon: ({ color, size }) => (*/}
-      {/*      <FontAwesomeIcon icon={faHeart} size={25} />*/}
-      {/*    ),*/}
-      {/*  }}*/}
-      {/*/>*/}
-      <Tab.Screen
-        name="Settings"
-        component={UserSettingsScreen}
-        options={{
-          tabBarLabel: () => { return null },
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesomeIcon icon={faUser} size={25} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-const InitI18N = async () => {
-  const language = await AsyncStorage.getItem('language');
-  if (language) {
-    i18next.changeLanguage(language);
-  }
-}
+const Authentication = createNativeStackNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
   const { t } = useTranslation();
-  //to define later with Justine
+  const colorScheme = useColorScheme();
 
-  const getToken = async () => {
+  const InitI18N = async () => {
     setIsLoading(true);
     try {
-      const retrieveToken = await AsyncStorage.getItem('token');
-      setToken(retrieveToken as string);
+      const language = await AsyncStorage.getItem('language');
+      if (language) {
+        i18next.changeLanguage(language);
+      }
     } catch (error) {
-      console.error('Error retrieving token:', error);
+      console.error('Error while setting up i18n:', error);
       return null;
     }
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   useEffect(() => {
+    GetToken({setIsLoading, setToken});
     InitI18N();
-  }, []);
-
-  useEffect(() => {
-    getToken();
   }, []);
 
   if (isLoading) {
@@ -122,19 +51,19 @@ const App = () => {
   } else {
     return (
       <TourGuideProvider androidStatusBarVisible={true} {...{ tooltipStyle: style } } {...{ labels: {previous: t("AppTour.Prev"), next: t("AppTour.Next"), skip: t("AppTour.Skip"), finish: t("AppTour.Done"),},}}>
-        <NavigationContainer>
-          <Stack.Navigator
+        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Authentication.Navigator
             initialRouteName={token != null ? "UserTabs" : "Landing"}
             screenOptions={{
               headerShown: false
             }}
           >
-            <Stack.Screen name="UserTabs" component={TabsNavigation} />
-            <Stack.Screen name="Landing" component={LandingScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          </Stack.Navigator>
+            <Authentication.Screen name="UserTabs" component={UserBottomBarNavigation} />
+            <Authentication.Screen name="Landing" component={LandingScreen} />
+            <Authentication.Screen name="Login" component={LoginScreen} />
+            <Authentication.Screen name="Register" component={RegisterScreen} />
+            <Authentication.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          </Authentication.Navigator>
         </NavigationContainer>
       </TourGuideProvider>
     );

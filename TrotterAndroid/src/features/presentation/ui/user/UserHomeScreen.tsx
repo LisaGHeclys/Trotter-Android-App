@@ -4,23 +4,19 @@ import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import { TripDataParams } from "../../../model/TripsModel.tsx";
+import {TripDataParams, TripsJsonData} from "../../../model/TripsModel.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { weekColors } from "../../../../core/utils/GlobalStyle.tsx";
+import DisplayRoutes from "./DisplayRoutes.tsx";
 import {
   TourGuideZone,
-  TourGuideZoneByPosition,
   useTourGuideController,
 } from 'rn-tourguide'
-import Routes from "./Routes.tsx";
 import { useTranslation } from "react-i18next";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
-
-
 
 const UserHomeScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,16 +28,7 @@ const UserHomeScreen = ({ navigation }: any) => {
     lon: 4.834277,
     cityName: "Lyon",
   })
-  const [jsonData, setJsonData] = useState<{
-    features: GeoJSON.FeatureCollection,
-    routes: [
-      {
-        route: GeoJSON.FeatureCollection,
-        tripLegData: any[],
-        visitOrder: number[],
-      }
-    ],
-  } | null>(null);
+  const [retrieveTripData, setRetrieveTripData] = useState<TripsJsonData | null>(null);
   const [itineraryDay, setItineraryDay] = useState<number>(1);
   const { t } = useTranslation();
 
@@ -87,7 +74,7 @@ const UserHomeScreen = ({ navigation }: any) => {
         onSuccess: async (response) => {
           const dataToJSON = await response.json();
           if (response.ok) {
-            setJsonData(dataToJSON);
+            setRetrieveTripData(dataToJSON);
           } else {
             console.error(dataToJSON?.code || 'Unknown error.');
           }
@@ -179,45 +166,7 @@ const UserHomeScreen = ({ navigation }: any) => {
               centerCoordinate={[tripData.lon, tripData.lat]}
               zoomLevel={12.5}
             />
-            {jsonData && jsonData?.routes.flatMap((route, index) => (
-              <MapboxGL.ShapeSource key={`route${index}`} id={`route${index}`} shape={{ type: "FeatureCollection", features: route.route.features }}>
-                <MapboxGL.LineLayer
-                  id={`routeLine-active${index}`}
-                  style={{
-                    lineJoin: "round",
-                    lineCap: "round",
-                    lineColor: weekColors[index % 7].primary,
-                    lineWidth:
-                      itineraryDay === index
-                        ? ["interpolate", ["linear"], ["zoom"], 12, 3, 22, 12]
-                        : ["interpolate", ["linear"], ["zoom"], 4, 1, 6, 4],
-                    lineOpacity: itineraryDay === index ? 1 : 0.3,
-                    lineWidthTransition: {
-                      delay: 0,
-                      duration: 300
-                    },
-                    lineOpacityTransition: {
-                      delay: 0,
-                      duration: 300
-                    },
-                  }}
-                />
-                <MapboxGL.SymbolLayer
-                  id={`routeArrows${index}`}
-                  style={{
-                    symbolPlacement: "line",
-                    textField: "▶",
-                    textSize: ["interpolate", ["linear"], ["zoom"], 12, 24, 22, 60],
-                    symbolSpacing: ["interpolate", ["linear"], ["zoom"], 12, 30, 22, 160],
-                    textKeepUpright: false,
-                    textColor: weekColors[index].secondary,
-                    textHaloColor: "hsl(55, 11%, 96%)",
-                    textHaloWidth: 2,
-                    textOpacity: itineraryDay === index ? 1 : 0
-                  }}
-                />
-              </MapboxGL.ShapeSource>
-            ))}
+            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay}/>}
           </Mapbox.MapView>
         </View>
       </View>

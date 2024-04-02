@@ -1,6 +1,6 @@
 import {Linking} from "react-native";
 import {AuthenticationRepository, OAuthCallback} from "../domain/AuthenticationRepository.tsx";
-import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/ApiUtils.ts";
+import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
   async login(email: string, pwd: string, callback: Callback): Promise<void> {

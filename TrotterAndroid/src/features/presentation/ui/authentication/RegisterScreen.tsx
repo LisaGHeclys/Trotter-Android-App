@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  ScrollView,
+  useColorScheme
+} from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -7,7 +15,7 @@ import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {textStyle} from "../../../../core/utils/GlobalStyle.tsx";
+import {textStyle} from "../../../../core/utils/style/GlobalStyle.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
@@ -18,6 +26,7 @@ import OAuthComponent from "./OAuthComponentList.tsx";
 import { useTranslation } from "react-i18next";
 
 const RegisterScreen = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
@@ -69,7 +78,7 @@ const RegisterScreen = ({navigation}: any) => {
           {t("Login.LogIn")}
         </Text>
         <TrotterLogo />
-        <Text style={textStyle.title}>
+        <Text style={textStyle({isDarkMode}).title}>
           {t("Register.CreateNew")}
         </Text>
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>

@@ -1,16 +1,18 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 import TrotterLogo from "../../../core/assets/TrotterLogo.tsx";
-import {textStyle} from "../../../core/utils/GlobalStyle.tsx";
+import {textStyle} from "../../../core/utils/style/GlobalStyle.tsx";
 import ButtonComponent, {ThemeEnum} from "../../../core/component/ButtonComponent.tsx";
 import { useTranslation } from "react-i18next";
 
 const LandingScreen = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const {t} = useTranslation();
+
   return (
     <View style={styles.container}>
       <TrotterLogo />
-      <Text style={textStyle.title}>
+      <Text style={textStyle({isDarkMode}).title}>
         {t("WelcomeToTrotter")}
       </Text>
       <ButtonComponent title={"Sign In"} onPress={() => navigation.navigate("Login")}/>
