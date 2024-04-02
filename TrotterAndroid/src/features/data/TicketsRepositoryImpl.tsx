@@ -1,6 +1,7 @@
 import {TicketsRepository} from "../domain/TicketsRepository.tsx";
 import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
 import {TicketBody} from "../model/TicketsModel.tsx";
+import Toaster from "../../core/utils/toaster/Toaster.tsx";
 
 class TicketsRepositoryImpl implements TicketsRepository {
   async createTicket(token: string, ticketBody: TicketBody, callback: Callback): Promise<void> {
@@ -22,9 +23,11 @@ class TicketsRepositoryImpl implements TicketsRepository {
         }),
       })
       callback.onSuccess(response);
+      Toaster({type: 'success', title: "Feedbacks.Create.Success"});
+
     } catch (error: any) {
       callback.onFailure(`An error occurred while creating a ticket ${error}`);
-      //toSetup Toaster for mobile
+      Toaster({type: 'error', title: "Feedbacks.Create.Fail"});
     }
   }
 
@@ -38,9 +41,10 @@ class TicketsRepositoryImpl implements TicketsRepository {
         },
       })
       callback.onSuccess(response);
+      Toaster({type: 'success', title: "Feedbacks.Delete.Success"});
     } catch (error: any) {
       callback.onFailure(`An error occurred while deleting a ticket ${error}`);
-      //toSetup Toaster for mobile
+      Toaster({type: 'error', title: "Feedbacks.Delete.Fail"});
     }
   }
 
@@ -63,9 +67,10 @@ class TicketsRepositoryImpl implements TicketsRepository {
         }),
       })
       callback.onSuccess(response);
+      Toaster({type: 'success', title: "Feedbacks.Update.Success"});
     } catch (error: any) {
       callback.onFailure(`An error occurred while updating a ticket ${error}`);
-      //toSetup Toaster for mobile
+      Toaster({type: 'error', title: "Feedbacks.Update.Fail"});
     }
   }
 

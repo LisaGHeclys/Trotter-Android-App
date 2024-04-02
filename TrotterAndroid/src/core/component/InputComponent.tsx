@@ -55,7 +55,7 @@ const InputComponent: React.FC<InputParams> =
     <View style={styles({backgroundColor, width, height}).container}>
       <TextInput
         style={styles({height}).inputContainer}
-        value={value}
+        value={value ? value : ""}
         placeholder={placeholder}
         onChangeText={(text) => setValue(text)}
         secureTextEntry={showPwd}

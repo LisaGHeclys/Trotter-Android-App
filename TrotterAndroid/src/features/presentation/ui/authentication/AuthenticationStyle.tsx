@@ -1,9 +1,7 @@
 import {StyleSheet, useColorScheme} from "react-native";
-import {GlobalColors} from "../../../../core/utils/style/GlobalStyle.tsx";
+import {GlobalColors, StyleProps} from "../../../../core/utils/style/GlobalStyle.tsx";
 
-const isDarkMode = useColorScheme() === 'dark';
-
-export const authenticationStyle = StyleSheet.create({
+export const authenticationStyle = ({isDarkMode}: StyleProps) => StyleSheet.create({
   pageTitle: {
     padding: 10,
     width: "100%",

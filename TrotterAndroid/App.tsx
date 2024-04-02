@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {SafeAreaView, useColorScheme} from 'react-native';
+import {SafeAreaView, useColorScheme, View} from 'react-native';
 import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,7 @@ import ForgotPasswordScreen from "./src/features/presentation/ui/authentication/
 import UserBottomBarNavigation from "./src/core/navigation/UserBottomBarNavigation.tsx";
 import "./src/core/i18n/config";
 import GetToken from "./src/core/utils/api/GetToken.tsx";
+import Toast from 'react-native-toast-message';
 
 const Authentication = createNativeStackNavigator();
 
@@ -65,6 +66,7 @@ const App = () => {
             <Authentication.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
           </Authentication.Navigator>
         </NavigationContainer>
+        <Toast />
       </TourGuideProvider>
     );
   }

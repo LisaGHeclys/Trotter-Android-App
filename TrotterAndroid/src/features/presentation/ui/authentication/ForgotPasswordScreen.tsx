@@ -1,4 +1,4 @@
-import {ScrollView, Text, View} from "react-native";
+import {ScrollView, Text, useColorScheme, View} from "react-native";
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
@@ -9,6 +9,7 @@ import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 
 const ForgotPasswordScreen = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [isSent, setIsSent] = useState<boolean>(false);
@@ -29,13 +30,13 @@ const ForgotPasswordScreen = ({navigation}: any) => {
 
   return (
     <ScrollView>
-      <View style={authenticationStyle.container}>
-        <Text style={authenticationStyle.pageTitle}>
+      <View style={authenticationStyle({isDarkMode}).container}>
+        <Text style={authenticationStyle({isDarkMode}).pageTitle}>
           {t("ForgotPassword.ForgotPassword")}
         </Text>
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
         {isSent && (
-          <Text style={authenticationStyle.pageTitle}>
+          <Text style={authenticationStyle({isDarkMode}).pageTitle}>
             {t("EmailSent")}
           </Text>
         )}
