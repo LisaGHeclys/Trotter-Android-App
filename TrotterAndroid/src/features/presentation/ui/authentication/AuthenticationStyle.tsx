@@ -1,10 +1,13 @@
-import {StyleSheet} from "react-native";
+import {StyleSheet, useColorScheme} from "react-native";
+import {GlobalColors} from "../../../../core/utils/style/GlobalStyle.tsx";
+
+const isDarkMode = useColorScheme() === 'dark';
 
 export const authenticationStyle = StyleSheet.create({
   pageTitle: {
     padding: 10,
     width: "100%",
-    color: "#000",
+    color: isDarkMode ? GlobalColors.writingColor.dark : GlobalColors.writingColor.light,
     textAlign: "right",
     fontSize: 20,
     fontStyle: "normal",
@@ -14,6 +17,7 @@ export const authenticationStyle = StyleSheet.create({
   container: {
     height: "100%",
     display: "flex",
+    backgroundColor: isDarkMode ? GlobalColors.backgroundColor.dark : GlobalColors.backgroundColor.light,
     flex: 1,
     alignItems: "center",
   },
@@ -41,7 +45,7 @@ export const authenticationStyle = StyleSheet.create({
     fontWeight: "400",
   },
   forgotPasswordText: {
-    color: "#16161A",
+    color: isDarkMode ? GlobalColors.writingColor.dark : GlobalColors.writingColor.light,
     textAlign: "right",
     fontSize: 12,
     fontStyle: "normal",
