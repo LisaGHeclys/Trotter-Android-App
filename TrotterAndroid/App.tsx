@@ -13,16 +13,12 @@ import LandingScreen from "./src/features/presentation/ui/LandingScreen.tsx";
 import ForgotPasswordScreen from "./src/features/presentation/ui/authentication/ForgotPasswordScreen.tsx";
 import UserBottomBarNavigation from "./src/core/navigation/UserBottomBarNavigation.tsx";
 import "./src/core/i18n/config";
-<<<<<<< HEAD
 import UserSavedTripsScreen from "./src/features/presentation/ui/user/UserSavedTripsScreen.tsx";
 import NotifService from './src/core/notifications/notificationsService.js';
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-=======
 import GetToken from "./src/core/utils/api/GetToken.tsx";
 import Toast from 'react-native-toast-message';
->>>>>>> c396cf845b51d163db2d51a59e8715924be18cf2
+
+const Stack = createNativeStackNavigator();
 
 const Authentication = createNativeStackNavigator();
 
