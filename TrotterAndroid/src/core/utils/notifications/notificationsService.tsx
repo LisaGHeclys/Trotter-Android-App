@@ -1,8 +1,11 @@
-import PushNotification, {Importance} from 'react-native-push-notification';
+import PushNotification, {Importance, PushNotificationPermissions, PushNotificationDeliveredObject, PushNotificationScheduledLocalObject} from 'react-native-push-notification';
 import NotificationHandler from './notificationsHandler';
 
-export default class NotifService {
-  constructor(onRegister, onNotification) {
+class NotifService {
+  lastId: number;
+  lastChannelCounter: number;
+
+  constructor(onRegister?: any, onNotification?: any) {
     this.lastId = 0;
     this.lastChannelCounter = 0;
 
@@ -11,7 +14,6 @@ export default class NotifService {
     NotificationHandler.attachRegister(onRegister);
     NotificationHandler.attachNotification(onNotification);
 
-    // Clear badge number at start
     PushNotification.getApplicationIconBadgeNumber(function (number) {
       if (number > 0) {
         PushNotification.setApplicationIconBadgeNumber(0);
@@ -26,40 +28,29 @@ export default class NotifService {
   createDefaultChannels() {
     PushNotification.createChannel(
       {
-        channelId: "default-channel-id", // (required)
-        channelName: `Default channel`, // (required)
-        channelDescription: "A default channel", // (optional) default: undefined.
-        soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
-        importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
-        vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
+        channelId: "1",
+        channelName: `Notifications`,
+        channelDescription: "Trotter notification Channel",
+        soundName: "default",
+        importance: Importance.HIGH,
+        vibrate: true,
       },
-      (created) => console.log(`createChannel 'default-channel-id' returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+      (created: boolean) => void 0 //console.log(`createChannel returned '${created}'`)
     );
-    // PushNotification.createChannel(
-    //   {
-    //     channelId: "sound-channel-id", // (required)
-    //     channelName: `Sound channel`, // (required)
-    //     channelDescription: "A sound channel", // (optional) default: undefined.
-    //     soundName: "sample.mp3", // (optional) See `soundName` parameter of `localNotification` function
-    //     importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
-    //     vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
-    //   },
-    //   (created) => console.log(`createChannel 'sound-channel-id' returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
-    // );
   }
 
   createOrUpdateChannel() {
     this.lastChannelCounter++;
     PushNotification.createChannel(
       {
-        channelId: "custom-channel-id", // (required)
-        channelName: `Custom channel - Counter: ${this.lastChannelCounter}`, // (required)
-        channelDescription: `A custom channel to categorise your custom notifications. Updated at: ${Date.now()}`, // (optional) default: undefined.
-        soundName: "default", // (optional) See `soundName` parameter of `localNotification` function
-        importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
-        vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
+        channelId: "1",
+        channelName: `Custom channel - Counter: ${this.lastChannelCounter}`,
+        channelDescription: `A custom channel to categorise your custom notifications. Updated at: ${Date.now()}`,
+        soundName: "default",
+        importance: Importance.HIGH,
+        vibrate: true,
       },
-      (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+      (created) => console.log(`createChannel returned '${created}'`)
     );
   }
 
@@ -67,11 +58,12 @@ export default class NotifService {
     PushNotification.popInitialNotification((notification) => console.log('InitialNotication:', notification));
   }
 
-  localNotif() {
+  // Je laisse les commentaires si jamais quelqu'un d'autres doit travailler sur les notifications
+  localNotification() {
     this.lastId++;
     PushNotification.localNotification({
       /* Android Only Properties */
-      channelId: 'default-channel-id',
+      channelId: '1',
       ticker: 'My Notification Ticker', // (optional)
       autoCancel: true, // (optional) default: true
       largeIcon: 'ic_launcher', // (optional) default: "ic_launcher"
@@ -94,7 +86,6 @@ export default class NotifService {
 
       /* iOS only properties */
       category: '', // (optional) default: empty string
-      subtitle: "My Notification Subtitle", // (optional) smaller title below notification title
 
       /* iOS and Android properties */
       id: this.lastId, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
@@ -107,19 +98,19 @@ export default class NotifService {
     });
   }
 
-  scheduleNotif() {
+  scheduleNotification(date: Date, title: string, message: string, bigText: string ) {
     this.lastId++;
     PushNotification.localNotificationSchedule({
-      date: new Date(Date.now() + 30 * 1000), // in 30 secs
+      date: date,
 
       /* Android Only Properties */
-      channelId: 'default-channel-id',
-      ticker: 'My Notification Ticker', // (optional)
+      channelId: "1",
+      //ticker: 'My Notification Ticker', // (optional)
       autoCancel: true, // (optional) default: true
       largeIcon: 'ic_launcher', // (optional) default: "ic_launcher"
       smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher"
-      bigText: 'My <strong>big text</strong> that will be shown when notification is expanded', // (optional) default: "message" prop
-      subText: 'This is a subText', // (optional) default: none
+      bigText: bigText, // (optional) default: "message" prop
+      //subText: 'This is a subText', // (optional) default: none
       color: 'blue', // (optional) default: system default
       vibrate: true, // (optional) default: true
       vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
@@ -133,14 +124,11 @@ export default class NotifService {
       when: null, // (optionnal) Add a timestamp pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
       usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
       timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
-    
-      /* iOS only properties */
-      category: '', // (optional) default: empty string
       
       /* iOS and Android properties */
       id: this.lastId, // (optional) Valid unique 32 bit integer specified as string. default: Autogenerated Unique ID
-      title: 'Scheduled Notification', // (optional)
-      message: 'My Notification Message', // (required)
+      title: title, // (optional)
+      message: message, // (required)
       userInfo: { sceen: "home" }, // (optional) default: {} (using null throws a JSON value '<null>' error)
       //playSound: !!soundName, // (optional) default: true
       //soundName: soundName ? soundName : 'default', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
@@ -148,7 +136,7 @@ export default class NotifService {
     });
   }
 
-  checkPermission(cbk) {
+  checkPermission(cbk: (permissions: PushNotificationPermissions) => void) {
     return PushNotification.checkPermissions(cbk);
   }
 
@@ -157,7 +145,7 @@ export default class NotifService {
   }
 
   cancelNotif() {
-    PushNotification.cancelLocalNotification(this.lastId);
+    PushNotification.cancelLocalNotification(this.lastId.toString());
   }
 
   cancelAll() {
@@ -168,11 +156,15 @@ export default class NotifService {
     PushNotification.abandonPermissions();
   }
 
-  getScheduledLocalNotifications(callback) {
+  getScheduledLocalNotifications(callback: (notifications: PushNotificationScheduledLocalObject[]) => void) {
     PushNotification.getScheduledLocalNotifications(callback);
   }
 
-  getDeliveredNotifications(callback) {
+  getDeliveredNotifications(callback: (notifications: PushNotificationDeliveredObject[]) => void) {
     PushNotification.getDeliveredNotifications(callback);
   }
 }
+
+const notificationService = new NotifService();
+
+export default notificationService;

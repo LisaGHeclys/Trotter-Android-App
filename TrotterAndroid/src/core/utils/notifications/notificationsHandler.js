@@ -57,11 +57,11 @@ PushNotification.configure({
   onRegistrationError: handler.onRegistrationError.bind(handler),
 
   // IOS ONLY (optional): default: all - Permissions to register.
-  permissions: {
-    alert: true,
-    badge: true,
-    sound: true,
-  },
+  // permissions: {
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // },
 
   // Should the initial notification be popped automatically
   // default: true

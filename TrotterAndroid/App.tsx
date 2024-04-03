@@ -14,24 +14,25 @@ import ForgotPasswordScreen from "./src/features/presentation/ui/authentication/
 import UserBottomBarNavigation from "./src/core/navigation/UserBottomBarNavigation.tsx";
 import "./src/core/i18n/config";
 import UserSavedTripsScreen from "./src/features/presentation/ui/user/UserSavedTripsScreen.tsx";
-import NotifService from './src/core/notifications/notificationsService.js';
 import GetToken from "./src/core/utils/api/GetToken.tsx";
 import Toast from 'react-native-toast-message';
-
-const Stack = createNativeStackNavigator();
+import { addRandomNotification } from './src/core/utils/notifications/easyNotifications.tsx';
 
 const Authentication = createNativeStackNavigator();
 
 const App = () => {
-  const notif = new NotifService();
-  notif.localNotif();
+  
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
 
+
+
   const InitI18N = async () => {
     setIsLoading(true);
+
     try {
       const language = await AsyncStorage.getItem('language');
       if (language) {
@@ -46,6 +47,7 @@ const App = () => {
 
   useEffect(() => {
     GetToken({setIsLoading, setToken});
+    //addRandomNotification();
     InitI18N();
   }, []);
 

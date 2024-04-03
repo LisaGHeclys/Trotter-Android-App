@@ -110,5 +110,11 @@
     "City": {
         "CitySuccess": "Trip successfully generated",
         "CityFail": "Trip generation failed"
+    },
+    "notifications": {
+        "UrTrip": "Your trip to",	
+        "DontForget": "Don't forget to save your trip to",
+        "ComeBack": "Come back !",
+        "ComeBackLong": "Come back to plane your next trip with us !"
     }
 }

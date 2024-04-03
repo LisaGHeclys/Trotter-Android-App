@@ -110,5 +110,11 @@
     "City": {
         "CitySuccess": "Voyage généré avec succès",
         "CityFail": "Génération de voyage interrompu"
+    },
+    "notifications": {
+        "UrTrip": "Votre voyage à",	
+        "DontForget": "N'oubliez pas de Sauvegarder votre voyage à",
+        "ComeBack": "Revenez !",
+        "ComeBackLong": "Revenez prévoir votre prochain voyage avec nous!"
     }
 }
