@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {Animated, Pressable, StyleSheet, TextInput, View} from "react-native";
+import {Animated, DimensionValue, Pressable, StyleSheet, TextInput, View} from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {IconDefinition} from "@fortawesome/free-regular-svg-icons";
 import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
@@ -11,10 +11,14 @@ type InputParams = {
   pwd?: boolean,
   iconRight?: IconDefinition,
   backgroundColor?: string,
+  width?: DimensionValue | undefined,
+  height?: DimensionValue | undefined,
 }
 
 type InputProps = {
   backgroundColor?: string,
+  width?: DimensionValue | undefined,
+  height?: DimensionValue | undefined,
 }
 
 const InputComponent: React.FC<InputParams> =
@@ -25,6 +29,8 @@ const InputComponent: React.FC<InputParams> =
      pwd = false,
      iconRight,
      backgroundColor= "transparent",
+     width = "80%",
+     height = 45,
   }) => {
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const [showPwd, setShowPwd] = useState<boolean>(pwd);
@@ -46,13 +52,17 @@ const InputComponent: React.FC<InputParams> =
     };
 
   return (
-    <View style={styles({backgroundColor}).container}>
+    <View style={styles({backgroundColor, width, height}).container}>
       <TextInput
-        style={styles({}).inputContainer}
-        value={value}
+        style={styles({height}).inputContainer}
+        value={value ? value : ""}
         placeholder={placeholder}
         onChangeText={(text) => setValue(text)}
         secureTextEntry={showPwd}
+        multiline={height != 45}
+        numberOfLines={height != 45 ? 6 : 1}
+        maxLength={height != 45 ? 280 : 40}
+        textAlignVertical={height != 45 ? "top" : "auto"}
       />
       {pwd && (
         <Pressable onPress={togglePassword}>
@@ -68,7 +78,7 @@ const InputComponent: React.FC<InputParams> =
   )
 }
 
-const styles = ({backgroundColor}: InputProps) => StyleSheet.create({
+const styles = ({backgroundColor, width, height}: InputProps) => StyleSheet.create({
   container: {
     margin: 8,
     flexDirection: 'row',
@@ -76,16 +86,19 @@ const styles = ({backgroundColor}: InputProps) => StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: 20,
     paddingRight: 20,
-    height: 45,
-    width: "80%",
+    height: height,
+    width: width,
     backgroundColor: backgroundColor,
     borderWidth: 1,
     borderColor: "#AAA",
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: height != 45 ? "flex-start" : "center",
   },
   inputContainer: {
-    width: "80%",
+    width: height == 45 || width == "80%" ? "80%" : "100%",
+    height: height != 45 ? "100%" : height,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   }
 });
 

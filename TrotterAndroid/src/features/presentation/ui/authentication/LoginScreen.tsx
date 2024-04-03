@@ -1,12 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  useColorScheme
+} from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {textStyle} from "../../../../core/utils/GlobalStyle.tsx";
+import {textStyle} from "../../../../core/utils/style/GlobalStyle.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
@@ -15,8 +20,10 @@ import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import DividerComponent from "../../../../core/component/DividerComponent.tsx";
 import OAuthComponent from "./OAuthComponentList.tsx";
 import { useTranslation } from "react-i18next";
+import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
 const LoginScreen = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
@@ -31,9 +38,8 @@ const LoginScreen = ({navigation}: any) => {
           try {
             const resToJSON = await response.json();
             if (response.ok) {
-              console.log(resToJSON?.accessToken);
               await AsyncStorage.setItem("token", resToJSON?.accessToken)
-              await AsyncStorage.setItem("isTourGuideDone", 'false')
+              await AsyncStorage.setItem("isTourGuideDone", 'true')
               navigation.navigate("UserTabs");
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
@@ -56,15 +62,15 @@ const LoginScreen = ({navigation}: any) => {
 
   return (
     <ScrollView>
-      <View style={authenticationStyle.container}>
+      <View style={authenticationStyle({isDarkMode}).container}>
         <Text
-          style={authenticationStyle.pageTitle}
+          style={authenticationStyle({isDarkMode}).pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Register", functionsToClear: [setEmail, setPassword]})}}
         >
           {t("Register.SignUp")}
         </Text>
         <TrotterLogo />
-        <Text style={textStyle.title}>
+        <Text style={textStyle({isDarkMode}).title}>
           {t("Login.WelcomeBack")}
         </Text>
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
@@ -74,20 +80,20 @@ const LoginScreen = ({navigation}: any) => {
           setValue={setPassword}
           pwd
         />
-        <View style={authenticationStyle.underContainer}>
+        <View style={authenticationStyle({isDarkMode}).underContainer}>
           {error && (
-            <View style={authenticationStyle.errorContainer}>
+            <View style={authenticationStyle({isDarkMode}).errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
               <Text
-                style={authenticationStyle.errorText}
+                style={authenticationStyle({isDarkMode}).errorText}
                 onPress={() => {ChangeScreen({navigation, destination: "ForgotPassword", functionsToClear: [setEmail, setPassword]})}}
               >
                 {t("Login.NotFound")}
               </Text>
             </View>
           )}
-          <Text style={authenticationStyle.forgotPasswordText}>
-            {t("Login.ForgotPassword")}
+          <Text style={authenticationStyle({isDarkMode}).forgotPasswordText}>
+            {t("ForgotPassword.ForgotPassword")}
           </Text>
         </View>
         <ButtonComponent title={t("Login.LogIn")} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />

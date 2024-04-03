@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  ScrollView,
+  useColorScheme
+} from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -7,7 +15,7 @@ import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {textStyle} from "../../../../core/utils/GlobalStyle.tsx";
+import {textStyle} from "../../../../core/utils/style/GlobalStyle.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
@@ -18,6 +26,7 @@ import OAuthComponent from "./OAuthComponentList.tsx";
 import { useTranslation } from "react-i18next";
 
 const RegisterScreen = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
@@ -61,25 +70,25 @@ const RegisterScreen = ({navigation}: any) => {
 
   return (
     <ScrollView>
-      <View style={authenticationStyle.container}>
+      <View style={authenticationStyle({isDarkMode}).container}>
         <Text
-          style={authenticationStyle.pageTitle}
+          style={authenticationStyle({isDarkMode}).pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Login", functionsToClear: [setEmail, setPassword, setConfirmPassword]})}}
         >
           {t("Login.LogIn")}
         </Text>
         <TrotterLogo />
-        <Text style={textStyle.title}>
+        <Text style={textStyle({isDarkMode}).title}>
           {t("Register.CreateNew")}
         </Text>
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
         <InputComponent value={password} placeholder={t("Password")} setValue={setPassword} pwd/>
         <InputComponent value={confirmPassword} placeholder={t("Register.ConfirmPass")} setValue={setConfirmPassword} pwd/>
-        <View style={authenticationStyle.underContainer}>
+        <View style={authenticationStyle({isDarkMode}).underContainer}>
           {error && (
-            <View style={authenticationStyle.errorContainer}>
+            <View style={authenticationStyle({isDarkMode}).errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
-              <Text style={authenticationStyle.errorText}>
+              <Text style={authenticationStyle({isDarkMode}).errorText}>
                 {t("Register.PasswordMismatch")}
               </Text>
             </View>

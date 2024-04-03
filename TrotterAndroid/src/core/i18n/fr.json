@@ -10,14 +10,27 @@
     "Save": "Sauvegarder",
     "Delete": "Supprimer",
     "Submit": "Valider",
-    "Settings": "Paramètres",
+    "Settings": {
+        "LogOut": "Déconnexion",
+        "Parameters": "Paramètres",
+        "PersonalInformation": "Information personnelle",
+        "GeneralSettings": "Paramètre Généraux",
+        "HelpCenter": "Centre d'aide",
+        "GiveUsFeedbacks": "Fait nous des retours",
+        "TermsOfUse": "Conditions d'utilisation",
+        "PrivacyAndPolicy": "Politique de confidentialité"
+    },
     "Login": {
         "Login": "Se connecter",
+        "LoginFailed": "Echec de connexion ",
+        "LoginFailedText": "Votre email utilisateur ou votre mot de passe est incorrecte",
         "NotFound": "Nous n'avons pas pu trouver votre compte.",
         "WelcomeBack": "Bon retour parmis nous !"
     },
     "Register": {
         "CreateAccount": "Créer un compte",
+        "RegisterFailed": "Echec de création de compte",
+        "RegisterFailedText": "L'enregistrement de votre nouveau compte s'est interrompu",
         "ConfirmPass": "Confirmer le mot de passe",
         "PasswordMismatch": "Le mot de passe est incorrect.",
         "SignUp": "S'inscrire",
@@ -50,5 +63,52 @@
         "Next": "Suivant",
         "Skip": "Passer le tutoriel",
         "Done": "Fin !"
+    },
+    "Feedbacks": {
+        "Title": "Titre",
+        "Create": {
+            "Success": "Ticket envoyé",
+            "Fail": "Envoi du ticket interrompu"
+        },
+        "Delete": {
+            "Success": "Ticket supprimé",
+            "Fail": "Supression du ticket interrompu"
+        },
+        "Update": {
+            "Success": "Ticket mis à jour",
+            "Fail": "Mise à jour du ticket interrompu"
+        },
+        "Type": {
+            "Select": "Selectionez la catégorie",
+            "Search": "Recherchez une categorie...",
+            "trips": "Voyage",
+            "event": "Evènement",
+            "account": "Compte",
+            "feedback": "Retour",
+            "other": "Autre"
+        },
+        "Description": "Description"
+    },
+    "TermsOfUse": {
+        "WhatYouCanDo": "Ce que vous pouvez faire sur notre application",
+        "WhatYouCanDoText": "Nous mettons cette application à votre disposition ainsi qu'à d'autres pour aider tout le monde à mieux comprendre nos projets. En échange, nous avons besoin que vous preniez les engagements suivants :\n\n(a) Qui peut utiliser l'Application\n\nNous essayons de rendre notre application largement disponible à tous, mais vous ne pouvez pas utiliser notre site web si :\nVous êtes mineur dans votre pays de résidence, sauf si vos parents ou tuteurs ont accepté ces conditions en votre nom.\nVous êtes interdit d'accès à l'application en vertu des lois applicables.\n\n(b) Ce que vous pouvez partager et faire sur l'Application\n\nVous acceptez de ne pas vous livrer aux comportements décrits ci-dessous (ou de faciliter ou de soutenir d'autres personnes dans ce sens) :\n\nVous ne pouvez pas utiliser notre application, faire ou partager quoi que ce soit :\nQui enfreint ces conditions (et d'autres termes et politiques qui s'appliquent à votre utilisation de l'application) ;\nQui est illégal dans un pays, trompeur, discriminatoire ou frauduleux ; et/ou\nQui viole ou porte atteinte aux droits de quelqu'un d'autre, y compris à ses droits de propriété intellectuelle.\nVous ne pouvez pas télécharger de virus ou de code malveillant ni faire quoi que ce soit qui pourrait désactiver, surcharger ou compromettre le bon fonctionnement ou l'apparence des services ou du site web.\n\n(c) Accès à l'Application\n\nL'application est mise à disposition gratuitement et les services sont disponibles uniquement à des fins d'information. Nous ne faisons aucune déclaration ni garantie d'aucune sorte quant à l'exactitude, à la devise ou à l'exhaustivité des informations et autres matériaux mis à disposition via le site web et nous ne sommes pas responsables des décisions que vous pourriez prendre en vous basant sur ce contenu.\n"
+    },
+    "PrivacyAndPolicies": {
+        "Introduction": "Introduction",
+        "IntroductionText": "Bienvenue chez Trotter ! Chez Trotter, nous nous engageons (un peu) à protéger la confidentialité et la sécurité de vos informations personnelles. Cette Politique de confidentialité décrit comment nous collectons, utilisons, divulguons et protégeons vos informations lorsque vous visitez notre site Web https://client.trotterapp.fr/ ou utilisez nos services. En accédant ou en utilisant notre site Web ou nos services, vous acceptez les modalités et conditions de cette Politique de confidentialité.\n\nCette Politique de confidentialité s'applique à tous les utilisateurs de notre site Web et de nos services, y compris les visiteurs, les clients et toute autre personne qui accède ou interagit avec notre plateforme. Nous prenons votre vie privée au sérieux et nous nous efforçons de garantir que vos informations personnelles sont traitées de manière responsable et conforme aux lois et réglementations applicables en matière de protection des données.\n\nVeuillez prendre un moment pour examiner attentivement cette Politique de confidentialité afin de comprendre nos pratiques en matière de collecte, d'utilisation et de divulgation de vos informations personnelles. Si vous avez des questions ou des préoccupations concernant notre Politique de confidentialité ou nos pratiques en matière de données, veuillez nous contacter à l'adresse trotter.forward@gmail.com.\n\nEn continuant à utiliser notre site Web ou nos services, vous reconnaissez avoir lu, compris et accepté les termes de cette Politique de confidentialité.\n\nMerci d'avoir choisi Trotter. Nous apprécions la confiance que vous nous accordez (même si nous ne sommes qu’un EIP) pour protéger votre vie privée et nous nous engageons à maintenir la confidentialité et la sécurité de vos informations personnelles.\n",
+        "PurposeOfCollection": "Objectifs de la collecte",
+        "PurposeOfCollectionText": "Nous recueillons des informations personnelles dans divers buts, notamment mais pas exclusivement :\n\nFournir et améliorer nos produits et services : Vos informations nous aident à offrir, maintenir et améliorer la fonctionnalité de notre site Web et de nos services.\nPersonnalisation : Nous pouvons utiliser vos informations pour personnaliser votre expérience, comme adapter le contenu ou les recommandations en fonction de vos préférences.\nCommunication : Nous pouvons utiliser vos coordonnées pour répondre à vos demandes, fournir un support client et envoyer des mises à jour importantes ou des notifications concernant nos services.\nAnalyses et recherches : Nous analysons les tendances et les comportements des utilisateurs pour mieux comprendre comment notre site Web et nos services sont utilisés, ce qui nous permet d'améliorer l'expérience utilisateur et d'optimiser nos offres.\nMarketing et promotions : Avec votre consentement, nous pouvons utiliser vos informations pour envoyer des documents promotionnels, des offres ou d'autres communications marketing qui pourraient vous intéresser.\nConformité légale : Nous pouvons traiter vos informations pour respecter les obligations légales, telles que répondre à des demandes légales des autorités ou faire respecter nos conditions et politiques.\n\nEn fournissant vos informations et en consentant à cette Politique de confidentialité, vous reconnaissez et acceptez la collecte, l'utilisation et le traitement de vos informations personnelles dans les buts décrits ci-dessus.\n",
+        "DataUsage": "Utilisation des données",
+        "DataUsageText": "Nous pouvons utiliser les informations collectées à diverses fins, notamment pour fournir et améliorer nos services, la personnalisation, les analyses, le marketing et la conformité légale.\n",
+        "DataSharing": "Partage des données",
+        "DataSharingText": "Nous pouvons partager vos informations avec des tiers à des fins telles que la fourniture de services, la réalisation d'analyses, le marketing et la conformité légale. Cependant, nous ne vendons ni ne louons vos informations personnelles à des tiers à des fins de marketing sans votre consentement explicite.\n",
+        "UserRights": "Droits des utilisateurs",
+        "UserRightsText": "Vous avez le droit d'accéder, de corriger ou de supprimer vos informations personnelles. Vous pouvez également avoir le droit de vous opposer à certaines activités de traitement ou de les limiter. Veuillez vous référer à la section \"Droits des utilisateurs\" de cette Politique de confidentialité pour plus d'informations sur la manière d'exercer vos droits.\n",
+        "ContactInformation": "Informations de contact",
+        "ContactInformationText": "Si vous avez des questions, des préoccupations ou des demandes concernant notre Politique de confidentialité ou le traitement de vos informations personnelles, veuillez à ne pas nous contacter à l'adresse trotter.forward@gmail.com.\n"
+    },
+    "City": {
+        "CitySuccess": "Voyage généré avec succès",
+        "CityFail": "Génération de voyage interrompu"
     }
 }
