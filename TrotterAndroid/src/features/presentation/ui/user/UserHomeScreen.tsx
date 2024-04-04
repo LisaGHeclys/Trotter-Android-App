@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Keyboard } from 'react-native';
+import { View, StyleSheet, ScrollView, Keyboard, Image } from 'react-native';
 import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {TripDataParams, TripsJsonData} from "../../../model/TripsModel.tsx";
+import { TripDataParams, TripsJsonData } from "../../../model/TripsModel.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
@@ -15,6 +15,7 @@ import {
   useTourGuideController,
 } from 'rn-tourguide'
 import { useTranslation } from "react-i18next";
+import { Icon } from 'react-native-vector-icons/Icon';
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
@@ -30,6 +31,8 @@ const UserHomeScreen = ({ navigation }: any) => {
   })
   const [retrieveTripData, setRetrieveTripData] = useState<TripsJsonData | null>(null);
   const [itineraryDay, setItineraryDay] = useState<number>(1);
+  const [accommodation, setAccommodation] = useState<[number, number] | null>(null);
+  const [selectAccommodation, setSelectAccommodation] = useState<boolean>(false);
   const { t } = useTranslation();
 
   const {
@@ -42,7 +45,7 @@ const UserHomeScreen = ({ navigation }: any) => {
   const RunTourGuide = async () => {
     if (canStart && await AsyncStorage.getItem("isTourGuideDone") === 'false') {
       start()
-      AsyncStorage.setItem("isTourGuideDone",'true')
+      AsyncStorage.setItem("isTourGuideDone", 'true')
     }
   }
 
@@ -131,6 +134,13 @@ const UserHomeScreen = ({ navigation }: any) => {
     setIsLoading(false)
   }
 
+  const addAccommodation = (coordinates: [number, number]) => {
+    if (accommodation === null) {
+      setAccommodation(coordinates);
+      setSelectAccommodation(!selectAccommodation);
+    }
+  }
+
   useEffect(() => {
     city !== "" && handleGenerateTrip();
   }, [tripData]);
@@ -161,13 +171,35 @@ const UserHomeScreen = ({ navigation }: any) => {
             style={styles.map}
             styleURL="mapbox://styles/mapbox/streets-v12"
             projection="globe"
+            onPress={(feature) => { selectAccommodation ? addAccommodation(feature.geometry.coordinates) : null }}
           >
             <Mapbox.Camera
               centerCoordinate={[tripData.lon, tripData.lat]}
               zoomLevel={12.5}
             />
-            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay}/>}
+            {accommodation && <Mapbox.PointAnnotation
+              id="accommodation"
+              coordinate={accommodation}
+            >
+              <View style={styles.accomodation}>
+                <Image
+                  style={styles.accomodationIcon}
+                  source={{
+                    uri: 'https://cdn-icons-png.flaticon.com/512/9567/9567116.png',
+                  }}
+                />
+              </View>
+            </Mapbox.PointAnnotation>}
+            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay} />}
           </Mapbox.MapView>
+        </View>
+        <View style={styles.accomdationButtonContainer}>
+          <ButtonComponent
+            onPress={(accommodation) ? (() => setAccommodation(null)) : (() => setSelectAccommodation(!selectAccommodation))}
+            title={(selectAccommodation) ? (t("Map.SelectingAccommodation")) : ((accommodation) ? t("Map.RemoveAccommodation") : t("Map.AddAccommodation"))}
+            disabled={selectAccommodation}
+            width={250}
+          />
         </View>
       </View>
       {isLoading && <LoadingComponent opacity={0.95} />}
@@ -200,6 +232,23 @@ const styles = StyleSheet.create({
     top: "2%",
     position: "absolute",
     zIndex: 5,
+  },
+  accomdationButtonContainer: {
+    width: "100%",
+    alignItems: "center",
+    bottom: "4%",
+    position: "absolute",
+    zIndex: 5,
+  },
+  accomodation: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  accomodationIcon: {
+    width: 40,
+    height: 40,
   }
 });
 
