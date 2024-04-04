@@ -25,7 +25,9 @@
         "LoginFailed": "Echec de connexion ",
         "LoginFailedText": "Votre email utilisateur ou votre mot de passe est incorrecte",
         "NotFound": "Nous n'avons pas pu trouver votre compte.",
-        "WelcomeBack": "Bon retour parmis nous !"
+        "WelcomeBack": "Bon retour parmis nous !",
+        "ForgotPassword": "Mot de passe oublié ?",
+        "EmailSent": "Si votre email est relié à un compte, vous recevrez prochainement un email afin de réinitialisé votre mot de passe."
     },
     "Register": {
         "CreateAccount": "Créer un compte",
@@ -35,10 +37,6 @@
         "PasswordMismatch": "Le mot de passe est incorrect.",
         "SignUp": "S'inscrire",
         "CreateNew": "Créez un nouveau compte !"
-    },
-    "ForgotPassword": {
-        "ForgotPassword": "Mot de passe oublié ?",
-        "EmailSent": "Si votre email est relié à un compte, vous recevrez prochainement un email afin de réinitialisé votre mot de passe."
     },
     "User": {
         "EmailInput": "Entrez votre email",
@@ -59,10 +57,27 @@
         "Map": "Hey, Bienvenue sur la présentation de l'application Trotter!\n\nÇa, c'est la map ! Ici tu retrouveras l'itinéraire qu'on te générera !",
         "Search": "Ici, tu peux taper le nom d'une ville pour générer un itinéraire !",
         "SearchConfirm": "Et quand tu sais dans quelle ville tu veux aller, tu peux appuyer ici pour lancer la génération, essaie avec la ville de Lyon !",
+        "SaveItinerary": "En utilisant ce bouton, tu peux sauvegarder ton itinéraire pour plus tard !",
         "Prev": "Précédent",
         "Next": "Suivant",
         "Skip": "Passer le tutoriel",
         "Done": "Fin !"
+    },
+    "Trips": {
+        "Trip": "Voyage",
+        "Trips": "Tout vos voyages",
+        "To": "à",
+        "NoTrips": "Aucuns voyages sauvegardé !",
+        "Open": "Ouvrir",
+        "DeleteConfirm": "Êtes-vous sûr de vouloir supprimer ce voyage ?",
+        "DeleteSuccess": "Voayge supprimé !",
+        "SaveSuccess1": "Voyage à",
+        "SaveSuccess2": "sauvegardé !",
+        "NameTripInput": "Nom du voyage",
+        "DeleteFail": "Échec de la suppression du voyage",
+        "loadFail": "Échec de la récupération des voyages enregistrés",
+        "SaveSuccess": "Voyage sauvegardé !",
+        "SaveFail": "Échec de la sauvegarde du voyage"
     },
     "Feedbacks": {
         "Title": "Titre",

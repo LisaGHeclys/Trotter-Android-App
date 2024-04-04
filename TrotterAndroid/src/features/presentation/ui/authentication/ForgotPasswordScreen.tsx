@@ -32,12 +32,12 @@ const ForgotPasswordScreen = ({navigation}: any) => {
     <ScrollView>
       <View style={authenticationStyle({isDarkMode}).container}>
         <Text style={authenticationStyle({isDarkMode}).pageTitle}>
-          {t("ForgotPassword.ForgotPassword")}
+          {t("Login.ForgotPassword")}
         </Text>
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
         {isSent && (
           <Text style={authenticationStyle({isDarkMode}).pageTitle}>
-            {t("EmailSent")}
+            {t("Login.EmailSent")}
           </Text>
         )}
         <ButtonComponent title={t("Submit")} onPress={handleSendEmail} disabled={!emailRegex.test(email)} />

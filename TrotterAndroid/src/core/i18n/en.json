@@ -25,7 +25,9 @@
         "LoginFailed": "Log in failed",
         "LoginFailedText": "Your user email or password is incorrect",
         "NotFound": "Couldn't find your Trotter Account.",
-        "WelcomeBack": "Welcome back !"
+        "WelcomeBack": "Welcome back !",
+        "ForgotPassword": "Forgot your password ?",
+        "EmailSent": "If your email is linked to an account, you will soon receive an email to reset your password."
     },
     "Register": {
         "CreateAccount": "Create an account",
@@ -35,10 +37,6 @@
         "PasswordMismatch": "The passwords doesn't match.",
         "SignUp": "Sign Up",
         "CreateNew": "Create a new account !"
-    },
-    "ForgotPassword": {
-        "ForgotPassword": "Forgot your password ?",
-        "EmailSent": "If your email is linked to an account, you will soon receive an email to reset your password."
     },
     "User": {
         "EmailInput": "User email to input",
@@ -59,10 +57,27 @@
         "Map": "Hey, welcome to the Trotter app tour !\n\nThis is the map, where you can see all the iteneraries we plan for you !",
         "Search": "You can search for iteneraries here !",
         "SearchConfirm": "And once you know what you're looking for, you can press this button, try looking for an itenary in Lyon !",
+        "SaveItinerary": "Using this button, you can save an itenary for later !",
         "Prev": "Previous",
         "Next": "Next",
         "Skip": "Skip",
         "Done": "Done"
+    },
+    "Trips": {
+        "Trip": "Trip",
+        "Trips": "All your saved trips",
+        "To": "to",
+        "NoTrips": "No trips saved yet !",
+        "Open": "Open",
+        "DeleteConfirm": "Are you sure you want to delete this trip ?",
+        "DeleteSuccess": "Trip deleted !",
+        "SaveSuccess1": "Trip to",
+        "SaveSuccess2": "saved !",
+        "NameTripInput": "Name your trip",
+        "DeleteFail": "Failed to delete trip",
+        "loadFail": "Failed to load saved trips",
+        "SaveSuccess": "Trip saved !",
+        "SaveFail": "Failed to save trip"
     },
     "Feedbacks": {
         "Title": "Title",

@@ -95,7 +95,7 @@ const LoginScreen = ({navigation}: any) => {
             </View>
           )}
           <Text style={authenticationStyle({isDarkMode}).forgotPasswordText}>
-            {t("ForgotPassword.ForgotPassword")}
+            {t("Login.ForgotPassword")}
           </Text>
         </View>
         <ButtonComponent title={t("Login.LogIn")} onPress={handleLogin} disabled={!emailRegex.test(email) || password === ""} />
