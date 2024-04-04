@@ -85,7 +85,7 @@ const UserHomeScreen = ({ navigation }: any) => {
           }
         },
         onFailure: (error) => {
-          Toaster({type: 'error', title: "City.CityFail"});
+          Toaster({type: 'error', title: t("City.CityFail")});
           console.error('Generation failed. Error:', error);
         }
       })
