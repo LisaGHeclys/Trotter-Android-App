@@ -41,6 +41,7 @@ const LoginScreen = ({navigation}: any) => {
               await AsyncStorage.setItem("token", resToJSON?.accessToken)
               await AsyncStorage.setItem("isTourGuideDone", 'true')
               navigation.navigate("UserTabs");
+              Toaster({type: 'success', title: "Login.WelcomeBack"});
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
@@ -49,6 +50,7 @@ const LoginScreen = ({navigation}: any) => {
           }
         },
         onFailure: (error) => {
+          Toaster({type: 'error', title: "Login.LoginFailed", text: "Login.LoginFailedText"});
           console.error('Login failed. Error:', error);
         },
       });

@@ -12,6 +12,7 @@ import {GlobalColors} from "../../../../../core/utils/style/GlobalStyle.tsx";
 import ticketsRepositoryImpl from "../../../../data/TicketsRepositoryImpl.tsx";
 import GetToken from "../../../../../core/utils/api/GetToken.tsx";
 import {emailRegex} from "../../../../../core/utils/RegexUtils.ts";
+import Toaster from "../../../../../core/utils/toaster/Toaster.tsx";
 
 type GiveUsFeedbackProps = {
   isDarkMode: boolean,
@@ -67,13 +68,14 @@ const GiveUsFeedbackScreen = ({navigation}: any) => {
               setContactEmail("");
               setCategory(undefined);
               setDescription("");
-              //setup toaster
+              Toaster({type: 'success', title: "Feedbacks.Create.Success"});
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
           } catch (error) {}
         },
         onFailure: (error) => {
+          Toaster({type: 'error', title: "Feedbacks.Create.Fail"});
           console.error('Ticket Submit Failed. Error:', error);
         },
       })

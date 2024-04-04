@@ -15,6 +15,7 @@ import {
   useTourGuideController,
 } from 'rn-tourguide'
 import { useTranslation } from "react-i18next";
+import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
@@ -75,11 +76,13 @@ const UserHomeScreen = ({ navigation }: any) => {
           const dataToJSON = await response.json();
           if (response.ok) {
             setRetrieveTripData(dataToJSON);
+            Toaster({type: 'success', title: "City.CitySuccess"});
           } else {
             console.error(dataToJSON?.code || 'Unknown error.');
           }
         },
         onFailure: (error) => {
+          Toaster({type: 'error', title: "City.CityFail"});
           console.error('Generation failed. Error:', error);
         }
       })
