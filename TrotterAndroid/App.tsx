@@ -16,7 +16,7 @@ import "./src/core/i18n/config";
 import UserSavedTripsScreen from "./src/features/presentation/ui/user/UserSavedTripsScreen.tsx";
 import GetToken from "./src/core/utils/api/GetToken.tsx";
 import Toast from 'react-native-toast-message';
-import { addRandomNotification } from './src/core/utils/notifications/easyNotifications.tsx';
+import { AddRandomNotification } from './src/core/utils/notifications/EasyNotifications.tsx';
 
 const Authentication = createNativeStackNavigator();
 
@@ -47,7 +47,7 @@ const App = () => {
 
   useEffect(() => {
     GetToken({setIsLoading, setToken});
-    //addRandomNotification();
+    AddRandomNotification();
     InitI18N();
   }, []);
 

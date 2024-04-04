@@ -1,5 +1,5 @@
 import PushNotification, {Importance, PushNotificationPermissions, PushNotificationDeliveredObject, PushNotificationScheduledLocalObject} from 'react-native-push-notification';
-import NotificationHandler from './notificationsHandler';
+import NotificationHandler from './NotificationsHandler';
 
 class NotifService {
   lastId: number;
@@ -8,7 +8,7 @@ class NotifService {
   constructor(onRegister?: any, onNotification?: any) {
     this.lastId = 0;
     this.lastChannelCounter = 0;
-
+    console.log('NotifService constructor');
     this.createDefaultChannels();
 
     NotificationHandler.attachRegister(onRegister);
@@ -118,7 +118,7 @@ class NotifService {
       group: 'group', // (optional) add group to message
       groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
       ongoing: false, // (optional) set whether this is an "ongoing" notification
-      actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
+      //actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
       invokeApp: false, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
 
       when: null, // (optionnal) Add a timestamp pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
@@ -165,6 +165,4 @@ class NotifService {
   }
 }
 
-const notificationService = new NotifService();
-
-export default notificationService;
+export default new NotifService();

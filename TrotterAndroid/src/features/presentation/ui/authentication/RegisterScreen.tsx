@@ -24,6 +24,7 @@ import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import DividerComponent from "../../../../core/component/DividerComponent.tsx";
 import OAuthComponent from "./OAuthComponentList.tsx";
 import { useTranslation } from "react-i18next";
+import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
 const RegisterScreen = ({navigation}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -46,6 +47,7 @@ const RegisterScreen = ({navigation}: any) => {
                 await AsyncStorage.setItem("token", resToJSON?.accessToken)
                 await AsyncStorage.setItem("isTourGuideDone", 'false')
                 navigation.navigate("UserTabs");
+                Toaster({type: 'success', title: "WelcomeToTrotter"});
               } else {
                 throw new Error(resToJSON?.Message || 'Unknown error.');
               }
@@ -54,6 +56,7 @@ const RegisterScreen = ({navigation}: any) => {
             }
           },
           onFailure: (error) => {
+            Toaster({type: 'error', title: "Register.RegisterFailed", text: "Register.RegisterFailedText"});
             console.error('Register failed. Error:', error);
           },
         });
