@@ -80,6 +80,7 @@ const UserHomeScreen = ({ navigation }: any) => {
             if (tripData.cityName)
               AddNotificationUnsavedTrip(t("notifications.UrTrip") + ` ${tripData.cityName}`, t("notifications.DontForget") + ` ${tripData.cityName}`);
             Toaster({ type: 'success', title: t("City.CitySuccess") });
+            Toaster({type: 'success', title: "City.CitySuccess"});
           } else {
             console.error(dataToJSON?.code || 'Unknown error.');
           }
