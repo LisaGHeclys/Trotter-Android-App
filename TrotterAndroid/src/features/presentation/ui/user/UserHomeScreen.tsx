@@ -73,7 +73,7 @@ const UserHomeScreen = ({ navigation }: any) => {
 
   const handleGenerateTrip = async () => {
     try {
-      await TripsRepositoryImpl.generate(token, (accommodation ? accommodation[0] : tripData.lon), (accommodation ? accommodation[1] : tripData?.lat), 3, {
+      await TripsRepositoryImpl.generate(token, tripData.lon, tripData?.lat, 3, {
         onSuccess: async (response) => {
           const dataToJSON = await response.json();
           if (response.ok) {
@@ -134,9 +134,9 @@ const UserHomeScreen = ({ navigation }: any) => {
     setIsLoading(false)
   }
 
-  const addAccommodation = (geometry: GeoJSON.GeoJsonProperties) => {
-    if (accommodation === null && geometry) {
-      setAccommodation(geometry.coordinates as [number, number]);
+  const addAccommodation = (coordinates: [number, number]) => {
+    if (accommodation === null) {
+      setAccommodation(coordinates);
       setSelectAccommodation(!selectAccommodation);
     }
   }
@@ -171,10 +171,10 @@ const UserHomeScreen = ({ navigation }: any) => {
             style={styles.map}
             styleURL="mapbox://styles/mapbox/streets-v12"
             projection="globe"
-            onPress={(feature) => { selectAccommodation ? addAccommodation(feature.geometry) : null }}
+            onPress={(feature) => { selectAccommodation ? addAccommodation(feature.geometry.coordinates) : null }}
           >
             <Mapbox.Camera
-              centerCoordinate={[(accommodation ? accommodation[0] : tripData.lon), (accommodation ? accommodation[1] : tripData?.lat)]}
+              centerCoordinate={[tripData.lon, tripData.lat]}
               zoomLevel={12.5}
             />
             {accommodation && <Mapbox.PointAnnotation
