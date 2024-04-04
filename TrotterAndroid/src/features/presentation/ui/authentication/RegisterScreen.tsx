@@ -47,7 +47,7 @@ const RegisterScreen = ({navigation}: any) => {
                 await AsyncStorage.setItem("token", resToJSON?.accessToken)
                 await AsyncStorage.setItem("isTourGuideDone", 'false')
                 navigation.navigate("UserTabs");
-                Toaster({type: 'success', title: "WelcomeToTrotter"});
+                Toaster({type: 'success', title: t("WelcomeToTrotter")});
               } else {
                 throw new Error(resToJSON?.Message || 'Unknown error.');
               }
@@ -56,7 +56,7 @@ const RegisterScreen = ({navigation}: any) => {
             }
           },
           onFailure: (error) => {
-            Toaster({type: 'error', title: "Register.RegisterFailed", text: "Register.RegisterFailedText"});
+            Toaster({type: 'error', title: "Register.RegisterFailed", text: t("Register.RegisterFailedText")});
             console.error('Register failed. Error:', error);
           },
         });

@@ -8,12 +8,11 @@ type ToasterType = {
 }
 
 const Toaster = ({type, title, text = ""}: ToasterType) => {
-  const {t} = useTranslation();
 
   Toast.show({
     type: type,
-    text1: t(title),
-    text2: t(text),
+    text1: title,
+    text2: text,
   });
 }
 
