@@ -1,6 +1,5 @@
 import {TripsRepository} from "../domain/TripsRepository.tsx";
 import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
-import Toaster from "../../core/utils/toaster/Toaster.tsx";
 
 class TripsRepositoryImpl implements TripsRepository {
   async delete(id: string): Promise<void> {

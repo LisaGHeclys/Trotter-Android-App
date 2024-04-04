@@ -68,14 +68,14 @@ const GiveUsFeedbackScreen = ({navigation}: any) => {
               setContactEmail("");
               setCategory(undefined);
               setDescription("");
-              Toaster({type: 'success', title: "Feedbacks.Create.Success"});
+              Toaster({type: 'success', title: t("Feedbacks.Create.Success")});
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
           } catch (error) {}
         },
         onFailure: (error) => {
-          Toaster({type: 'error', title: "Feedbacks.Create.Fail"});
+          Toaster({type: 'error', title: t("Feedbacks.Create.Fail")});
           console.error('Ticket Submit Failed. Error:', error);
         },
       })

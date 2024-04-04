@@ -4,7 +4,7 @@ import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {TripDataParams, TripsJsonData} from "../../../model/TripsModel.tsx";
+import { TripDataParams, TripsJsonData } from "../../../model/TripsModel.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
@@ -14,7 +14,7 @@ import {
   TourGuideZone,
   useTourGuideController,
 } from 'rn-tourguide'
-import { AddNotificationUnsavedTrip } from '../../../../core/utils/notifications/EasyNotifications.tsx';
+import { AddNotificationUnsavedTrip, AddRandomNotification } from '../../../../core/utils/notifications/EasyNotifications.tsx';
 import { useTranslation } from "react-i18next";
 import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
@@ -44,7 +44,7 @@ const UserHomeScreen = ({ navigation }: any) => {
   const RunTourGuide = async () => {
     if (canStart && await AsyncStorage.getItem("isTourGuideDone") === 'false') {
       start()
-      AsyncStorage.setItem("isTourGuideDone",'true')
+      AsyncStorage.setItem("isTourGuideDone", 'true')
     }
   }
 
@@ -78,14 +78,14 @@ const UserHomeScreen = ({ navigation }: any) => {
           if (response.ok) {
             setRetrieveTripData(dataToJSON);
             if (tripData.cityName)
-              AddNotificationUnsavedTrip(tripData.cityName);
-            Toaster({type: 'success', title: "City.CitySuccess"});
+              AddNotificationUnsavedTrip(t("notifications.UrTrip") + ` ${tripData.cityName}`, t("notifications.DontForget") + ` ${tripData.cityName}`);
+            Toaster({ type: 'success', title: t("City.CitySuccess") });
           } else {
             console.error(dataToJSON?.code || 'Unknown error.');
           }
         },
         onFailure: (error) => {
-          Toaster({type: 'error', title: "City.CityFail"});
+          Toaster({ type: 'error', title: t("City.CityFail") });
           console.error('Generation failed. Error:', error);
         }
       })
@@ -137,12 +137,20 @@ const UserHomeScreen = ({ navigation }: any) => {
     setIsLoading(false)
   }
 
+  const SelectRandomMessage = () => {
+    const randomMessages = [
+      "notifications.ComeBack",
+    ];
+    return randomMessages[Math.floor(Math.random() * randomMessages.length)];
+  }
+
   useEffect(() => {
     city !== "" && handleGenerateTrip();
   }, [tripData]);
 
   useEffect(() => {
     getToken();
+    AddRandomNotification(t(SelectRandomMessage()), (t(SelectRandomMessage() + "Long")));
   }, []);
 
   //should I request permission from here ?
@@ -172,7 +180,7 @@ const UserHomeScreen = ({ navigation }: any) => {
               centerCoordinate={[tripData.lon, tripData.lat]}
               zoomLevel={12.5}
             />
-            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay}/>}
+            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay} />}
           </Mapbox.MapView>
         </View>
       </View>
