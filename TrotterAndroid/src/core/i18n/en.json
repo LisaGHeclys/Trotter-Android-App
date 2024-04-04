@@ -64,11 +64,6 @@
         "Skip": "Skip",
         "Done": "Done"
     },
-    "Map": {
-        "RemoveAccommodation": "Remove accomodation",
-        "AddAccommodation": "Add an accomodation",
-        "SelectingAccommodation": "Click on the map"
-    },
     "Feedbacks": {
         "Title": "Title",
         "Create": {

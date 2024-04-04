@@ -64,11 +64,6 @@
         "Skip": "Passer le tutoriel",
         "Done": "Fin !"
     },
-    "Map": {
-        "RemoveAccommodation": "Supprimer l'hébergement",
-        "AddAccommodation": "Ajouter un hébergement",
-        "SelectingAccommodation": "Cliquer sur la carte"
-    },
     "Feedbacks": {
         "Title": "Titre",
         "Create": {
