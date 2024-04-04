@@ -76,13 +76,13 @@ const UserHomeScreen = ({ navigation }: any) => {
           const dataToJSON = await response.json();
           if (response.ok) {
             setRetrieveTripData(dataToJSON);
-            Toaster({type: 'success', title: "City.CitySuccess"});
+            Toaster({type: 'success', title: t("City.CitySuccess")});
           } else {
             console.error(dataToJSON?.code || 'Unknown error.');
           }
         },
         onFailure: (error) => {
-          Toaster({type: 'error', title: "City.CityFail"});
+          Toaster({type: 'error', title: t("City.CityFail")});
           console.error('Generation failed. Error:', error);
         }
       })
