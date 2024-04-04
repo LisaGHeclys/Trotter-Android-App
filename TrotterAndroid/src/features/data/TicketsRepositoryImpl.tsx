@@ -23,11 +23,8 @@ class TicketsRepositoryImpl implements TicketsRepository {
         }),
       })
       callback.onSuccess(response);
-      Toaster({type: 'success', title: "Feedbacks.Create.Success"});
-
     } catch (error: any) {
       callback.onFailure(`An error occurred while creating a ticket ${error}`);
-      Toaster({type: 'error', title: "Feedbacks.Create.Fail"});
     }
   }
 
@@ -41,10 +38,10 @@ class TicketsRepositoryImpl implements TicketsRepository {
         },
       })
       callback.onSuccess(response);
-      Toaster({type: 'success', title: "Feedbacks.Delete.Success"});
+      // Toaster({type: 'success', title: "Feedbacks.Delete.Success"});
     } catch (error: any) {
       callback.onFailure(`An error occurred while deleting a ticket ${error}`);
-      Toaster({type: 'error', title: "Feedbacks.Delete.Fail"});
+      // Toaster({type: 'error', title: "Feedbacks.Delete.Fail"});
     }
   }
 
@@ -67,10 +64,10 @@ class TicketsRepositoryImpl implements TicketsRepository {
         }),
       })
       callback.onSuccess(response);
-      Toaster({type: 'success', title: "Feedbacks.Update.Success"});
+      // Toaster({type: 'success', title: "Feedbacks.Update.Success"});
     } catch (error: any) {
       callback.onFailure(`An error occurred while updating a ticket ${error}`);
-      Toaster({type: 'error', title: "Feedbacks.Update.Fail"});
+      // Toaster({type: 'error', title: "Feedbacks.Update.Fail"});
     }
   }
 

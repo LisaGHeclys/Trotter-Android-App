@@ -24,10 +24,8 @@ class TripsRepositoryImpl implements TripsRepository {
         }),
       })
       callback.onSuccess(response);
-      Toaster({type: 'success', title: "City.CitySuccess"});
     } catch (error: any) {
       callback.onFailure(`An error occurred while generating the trip of the user ${error}`);
-      Toaster({type: 'error', title: "City.CityFail"});
     }
   }
 
@@ -50,7 +48,6 @@ class TripsRepositoryImpl implements TripsRepository {
       //callback.onSuccess(response);
     } catch (error: any) {
       //callback.onFailure(`An error occurred while logging the user ${error}`);
-      //toSetup Toaster for mobile
     }
   }
 }
