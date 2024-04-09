@@ -1,103 +1,79 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, useColorScheme} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {NavigationContainer} from "@react-navigation/native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import React, { useEffect, useState } from 'react';
+import {SafeAreaView, useColorScheme, View} from 'react-native';
+import {DarkTheme, DefaultTheme, NavigationContainer} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faGear, faMapLocationDot} from "@fortawesome/free-solid-svg-icons";
+import i18next from 'i18next';
+import { TourGuideProvider } from 'rn-tourguide';
+import { useTranslation } from "react-i18next";
 import LoadingComponent from "./src/core/component/LoadingComponent";
 import LoginScreen from "./src/features/presentation/ui/authentication/LoginScreen.tsx";
 import RegisterScreen from './src/features/presentation/ui/authentication/RegisterScreen.tsx';
 import LandingScreen from "./src/features/presentation/ui/LandingScreen.tsx";
-import UserSettingsScreen from "./src/features/presentation/ui/user/UserSettingsScreen.tsx";
-import UserHomeScreen from "./src/features/presentation/ui/user/UserHomeScreen.tsx";
+import ForgotPasswordScreen from "./src/features/presentation/ui/authentication/ForgotPasswordScreen.tsx";
+import UserBottomBarNavigation from "./src/core/navigation/UserBottomBarNavigation.tsx";
+import "./src/core/i18n/config";
+import GetToken from "./src/core/utils/api/GetToken.tsx";
+import Toast from 'react-native-toast-message';
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-const TabsNavigation = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName={"Home"}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={UserHomeScreen}
-        options={{
-          tabBarLabel: () => {return null},
-          tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon icon={faMapLocationDot} size={25}/>
-            //need to put active and inactive colors
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={UserSettingsScreen}
-        options={{
-          tabBarLabel:() => {return null},
-          tabBarIcon: ({color, size}) => (
-            <FontAwesomeIcon icon={faGear} size={25} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
+const Authentication = createNativeStackNavigator();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-  //to define later with Justine
+  const { t } = useTranslation();
+  const colorScheme = useColorScheme();
 
-  const getToken = async () => {
+  const InitI18N = async () => {
     setIsLoading(true);
     try {
-      const retrieveToken = await AsyncStorage.getItem('token');
-      setToken(retrieveToken as string);
+      const language = await AsyncStorage.getItem('language');
+      if (language) {
+        i18next.changeLanguage(language);
+      }
     } catch (error) {
-      console.error('Error retrieving token:', error);
+      console.error('Error while setting up i18n:', error);
       return null;
     }
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   useEffect(() => {
-    getToken();
+    GetToken({setIsLoading, setToken});
+    InitI18N();
   }, []);
 
   if (isLoading) {
     return (
       <SafeAreaView>
-        <LoadingComponent opacity={1}/>
+        <LoadingComponent opacity={1} />
       </SafeAreaView>
     )
   } else {
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={token != null ? "UserTabs" : "Landing"}
-          screenOptions={{
-            headerShown: false
-          }}
-        >
-          <Stack.Screen name="UserTabs" component={TabsNavigation}/>
-          <Stack.Screen name="Landing" component={LandingScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <TourGuideProvider androidStatusBarVisible={true} {...{ tooltipStyle: style } } {...{ labels: {previous: t("AppTour.Prev"), next: t("AppTour.Next"), skip: t("AppTour.Skip"), finish: t("AppTour.Done"),},}}>
+        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Authentication.Navigator
+            initialRouteName={token != null ? "UserTabs" : "Landing"}
+            screenOptions={{
+              headerShown: false
+            }}
+          >
+            <Authentication.Screen name="UserTabs" component={UserBottomBarNavigation} />
+            <Authentication.Screen name="Landing" component={LandingScreen} />
+            <Authentication.Screen name="Login" component={LoginScreen} />
+            <Authentication.Screen name="Register" component={RegisterScreen} />
+            <Authentication.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          </Authentication.Navigator>
+        </NavigationContainer>
+        <Toast />
+      </TourGuideProvider>
     );
   }
+}
+
+const style = {
+  borderRadius: 16,
 }
 
 export default App;

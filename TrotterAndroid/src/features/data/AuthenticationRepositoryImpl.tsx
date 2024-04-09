@@ -1,8 +1,9 @@
 import {Linking} from "react-native";
 import {AuthenticationRepository, OAuthCallback} from "../domain/AuthenticationRepository.tsx";
-import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/ApiUtils.ts";
+import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
+
   async login(email: string, pwd: string, callback: Callback): Promise<void> {
     try {
       const response = await fetch(`${MOBILE_SERVER_URL}/auth/login`, {
@@ -16,7 +17,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       callback.onSuccess(response);
     } catch (error: any) {
       callback.onFailure(`An error occurred while logging the user ${error}`);
-      //toSetup Toaster for mobile
     }
   }
 
@@ -33,7 +33,6 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       callback.onSuccess(response);
     } catch (error: any) {
       callback.onFailure("An error occurred while creating a new user");
-      //toSetup Toaster for mobile
     }
   }
 
