@@ -37,6 +37,7 @@ const LoginScreen = ({navigation}: any) => {
         onSuccess: async (response) => {
           try {
             const resToJSON = await response.json();
+            console.log(resToJSON)
             if (response.ok) {
               await AsyncStorage.setItem("token", resToJSON?.accessToken)
               await AsyncStorage.setItem("isTourGuideDone", 'true')
