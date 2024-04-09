@@ -1,7 +1,6 @@
 import {Linking} from "react-native";
 import {AuthenticationRepository, OAuthCallback} from "../domain/AuthenticationRepository.tsx";
 import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
-import Toaster from "../../core/utils/toaster/Toaster.tsx";
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
 

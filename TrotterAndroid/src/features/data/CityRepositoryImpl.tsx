@@ -1,6 +1,5 @@
 import {CityRepository} from "../domain/CityRepository.tsx";
 import {Callback, headers} from "../../core/utils/api/ApiUtils.ts";
-import Toaster from "../../core/utils/toaster/Toaster.tsx";
 
 class CityRepositoryImpl implements CityRepository {
   async getCoordinates(cityName: string, callback: Callback): Promise<void> {

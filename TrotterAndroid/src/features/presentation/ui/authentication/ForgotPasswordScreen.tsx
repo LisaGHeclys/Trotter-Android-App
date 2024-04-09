@@ -7,6 +7,8 @@ import {useTranslation} from "react-i18next";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
+import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
+import {textStyle} from "../../../../core/utils/style/GlobalStyle.tsx";
 
 const ForgotPasswordScreen = ({navigation}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,7 +33,14 @@ const ForgotPasswordScreen = ({navigation}: any) => {
   return (
     <ScrollView>
       <View style={authenticationStyle({isDarkMode}).container}>
-        <Text style={authenticationStyle({isDarkMode}).pageTitle}>
+        <Text
+          style={authenticationStyle({isDarkMode}).pageTitle}
+          onPress={() => {ChangeScreen({navigation, destination: "Login", functionsToClear: [setEmail]})}}
+        >
+          {t("Login.LogIn")}
+        </Text>
+        <TrotterLogo />
+        <Text style={textStyle({isDarkMode}).title}>
           {t("Login.ForgotPassword")}
         </Text>
         <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>

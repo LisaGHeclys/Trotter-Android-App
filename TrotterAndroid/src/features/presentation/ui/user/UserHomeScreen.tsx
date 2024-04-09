@@ -121,7 +121,7 @@ const UserHomeScreen = ({ navigation }: any) => {
           onSuccess: async (response) => {
             await response.json();
             if (response.ok) {
-              Toaster({type: 'success', title: "Trips.SaveSuccess"});
+              Toaster({type: 'success', title: t("Trips.SaveSuccess")});
               setIsSaved(true);
             } else {
               console.error('Unknown error.');
@@ -129,7 +129,7 @@ const UserHomeScreen = ({ navigation }: any) => {
           },
           onFailure: (error) => {
             console.error('Call to save the trip failed:', error);
-            Toaster({type: 'error', title: "Trips.SaveFail"});
+            Toaster({type: 'error', title: t("Trips.SaveFail")});
           },
         });
       } catch (error) {

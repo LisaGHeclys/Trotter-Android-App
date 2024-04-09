@@ -1,7 +1,6 @@
 import {TicketsRepository} from "../domain/TicketsRepository.tsx";
 import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
 import {TicketBody} from "../model/TicketsModel.tsx";
-import Toaster from "../../core/utils/toaster/Toaster.tsx";
 
 class TicketsRepositoryImpl implements TicketsRepository {
   async createTicket(token: string, ticketBody: TicketBody, callback: Callback): Promise<void> {
