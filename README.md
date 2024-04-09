@@ -22,19 +22,26 @@ The development of Trotter is a significant undertaking that is expected to take
 # How to name your branch and how to name your commit
 ### Branches
 - What to do with the branches
-   - main : no push on main, it's forbidden. it represents the project on production.
+   - main : no push on main, it's forbidden ! it represents the project on production.
    - develop : every task that's finished and reviewed will be merged on develop.
    - release : before every meeting with the group projects, a release is taken from develop to test every feature, when everything's corrected, it's merged on main and on develop.
 
 - How to branch
   ```
-  feature/JIRACARD/TASK  
+  [typeOfTask]/taskInCamelCase  
   ```
+  - Type of task :
+    - feature
+    - bugfix
+    - patch
+    - wip
+    - tests
+    - documentation
 
 ### Commits
 - How to commit
   ```
-  [CLICKUPCARD](TYPE): description of what has been done 
+  [clickupCardID] TYPE: description of what has been done 
   ```
 
 - Type
@@ -51,8 +58,10 @@ The development of Trotter is a significant undertaking that is expected to take
 And you're all set to contribute to our project.
 
 # Useful ressources
-- [License](https://github.com/TrotterApp/mobile/blob/main/LICENSE.md)
-- [Code of Conduct](https://github.com/TrotterApp/mobile/blob/main/CODE_OF_CONDUCT.md)
+- [License](https://gitlab.com/trottermobile/android-app/-/blob/main/LICENSE.md?ref_type=heads)
+- [Code of Conduct](https://gitlab.com/trottermobile/android-app/-/blob/main/CODE_OF_CONDUCT.md?ref_type=heads)
+
+-----
 
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
@@ -110,10 +119,6 @@ Now that you have successfully run the app, let's modify it.
 2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
 
    For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
 
 ### Now what?
 

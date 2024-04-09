@@ -1,12 +1,21 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  ScrollView,
+  useColorScheme
+} from 'react-native';
+import { useHeaderHeight } from '@react-navigation/elements';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCircleExclamation} from "@fortawesome/free-solid-svg-icons";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {textStyle} from "../../../../core/utils/GlobalStyle.tsx";
+import {textStyle} from "../../../../core/utils/style/GlobalStyle.tsx";
 import {emailRegex} from "../../../../core/utils/RegexUtils.ts";
 import {ChangeScreen} from "../../../../core/utils/GlobalUtils.ts";
 import TrotterLogo from "../../../../core/assets/TrotterLogo.tsx";
@@ -14,13 +23,17 @@ import AuthenticationRepositoryImpl from "../../../data/AuthenticationRepository
 import {authenticationStyle} from "./AuthenticationStyle.tsx";
 import DividerComponent from "../../../../core/component/DividerComponent.tsx";
 import OAuthComponent from "./OAuthComponentList.tsx";
+import { useTranslation } from "react-i18next";
+import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
 const RegisterScreen = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const {t} = useTranslation();
 
   const handleRegister = async () => {
     if (password === confirmPassword) {
@@ -32,7 +45,9 @@ const RegisterScreen = ({navigation}: any) => {
               const resToJSON = await response.json();
               if (response.ok) {
                 await AsyncStorage.setItem("token", resToJSON?.accessToken)
+                await AsyncStorage.setItem("isTourGuideDone", 'false')
                 navigation.navigate("UserTabs");
+                Toaster({type: 'success', title: t("WelcomeToTrotter")});
               } else {
                 throw new Error(resToJSON?.Message || 'Unknown error.');
               }
@@ -41,6 +56,7 @@ const RegisterScreen = ({navigation}: any) => {
             }
           },
           onFailure: (error) => {
+            Toaster({type: 'error', title: t("Register.RegisterFailed"), text: t("Register.RegisterFailedText")});
             console.error('Register failed. Error:', error);
           },
         });
@@ -56,37 +72,37 @@ const RegisterScreen = ({navigation}: any) => {
   }
 
   return (
-    <>
-      <View style={authenticationStyle.container}>
+    <ScrollView>
+      <View style={authenticationStyle({isDarkMode}).container}>
         <Text
-          style={authenticationStyle.pageTitle}
+          style={authenticationStyle({isDarkMode}).pageTitle}
           onPress={() => {ChangeScreen({navigation, destination: "Login", functionsToClear: [setEmail, setPassword, setConfirmPassword]})}}
         >
-          Log In
+          {t("Login.LogIn")}
         </Text>
         <TrotterLogo />
-        <Text style={textStyle.title}>
-          Create a new account !
+        <Text style={textStyle({isDarkMode}).title}>
+          {t("Register.CreateNew")}
         </Text>
-        <InputComponent value={email} placeholder={"Email"} setValue={setEmail}/>
-        <InputComponent value={password} placeholder={"Password"} setValue={setPassword} pwd/>
-        <InputComponent value={confirmPassword} placeholder={"Confirm Password"} setValue={setConfirmPassword} pwd/>
-        <View style={authenticationStyle.underContainer}>
+        <InputComponent value={email} placeholder={t("Email")} setValue={setEmail}/>
+        <InputComponent value={password} placeholder={t("Password")} setValue={setPassword} pwd/>
+        <InputComponent value={confirmPassword} placeholder={t("Register.ConfirmPass")} setValue={setConfirmPassword} pwd/>
+        <View style={authenticationStyle({isDarkMode}).underContainer}>
           {error && (
-            <View style={authenticationStyle.errorContainer}>
+            <View style={authenticationStyle({isDarkMode}).errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
-              <Text style={authenticationStyle.errorText}>
-                The passwords doesn't match.
+              <Text style={authenticationStyle({isDarkMode}).errorText}>
+                {t("Register.PasswordMismatch")}
               </Text>
             </View>
           )}
         </View>
-        <ButtonComponent title={"Sign Up"} onPress={handleRegister} disabled={!emailRegex.test(email) || password === "" || confirmPassword === ""} />
-        <DividerComponent text={"Or With"}/>
+        <ButtonComponent title={t("Register.SignUp")} onPress={handleRegister} disabled={!emailRegex.test(email) || password === "" || confirmPassword === ""} />
+        <DividerComponent text={t("OrWith")}/>
         <OAuthComponent setIsLoading={setIsLoading}/>
       </View>
       {isLoading && <LoadingComponent/>}
-    </>
+    </ScrollView>
   )
 }
 
