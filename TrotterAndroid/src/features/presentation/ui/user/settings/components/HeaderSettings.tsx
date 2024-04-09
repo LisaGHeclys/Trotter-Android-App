@@ -23,8 +23,9 @@ const HeaderSettings = ({navigation, title}: HeaderParams) => {
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("token");
+    navigation.navigate("Home");
     navigation.navigate("Landing");
-    Toaster({type: 'success', title: "Settings.LogOut"});
+    Toaster({type: 'success', title: t("Settings.LogOut")});
   }
 
   return (

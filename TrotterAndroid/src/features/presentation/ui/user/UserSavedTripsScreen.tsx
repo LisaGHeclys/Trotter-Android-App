@@ -48,7 +48,7 @@ const UserSavedTripsScreen = ({ navigation }: any) => {
         },
         onFailure: (error) => {
           console.error('Load trips failed. Error:', error);
-          Toaster({type: 'error', title: "Trips.LoadFail"});
+          Toaster({type: 'error', title: t("Trips.LoadFail")});
         },
       });
     } catch (error) {
@@ -80,11 +80,11 @@ const UserSavedTripsScreen = ({ navigation }: any) => {
       await TripsRepositoryImpl.delete((token ? token : ""), JSON.parse(id), {
         onSuccess: async (response) => {
           await response.json();
-          Toaster({type: 'success', title: "Trips.DeleteSuccess"});
+          Toaster({type: 'success', title: t("Trips.DeleteSuccess")});
         },
         onFailure: (error) => {
           console.error('Error deleting saved trip:', error);
-          Toaster({type: 'error', title: "Trips.DeleteFail"});
+          Toaster({type: 'error', title: t("Trips.DeleteFail")});
         },
       
       });

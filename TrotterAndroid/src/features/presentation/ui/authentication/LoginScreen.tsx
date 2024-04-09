@@ -3,7 +3,7 @@ import {
   View,
   Text,
   ScrollView,
-  useColorScheme
+  useColorScheme, Pressable
 } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
@@ -37,6 +37,7 @@ const LoginScreen = ({navigation}: any) => {
         onSuccess: async (response) => {
           try {
             const resToJSON = await response.json();
+            console.log(resToJSON)
             if (response.ok) {
               await AsyncStorage.setItem("token", resToJSON?.accessToken)
               await AsyncStorage.setItem("isTourGuideDone", 'true')
@@ -86,15 +87,15 @@ const LoginScreen = ({navigation}: any) => {
           {error && (
             <View style={authenticationStyle({isDarkMode}).errorContainer}>
               <FontAwesomeIcon icon={faCircleExclamation} color={"red"}/>
-              <Text
-                style={authenticationStyle({isDarkMode}).errorText}
-                onPress={() => {ChangeScreen({navigation, destination: "ForgotPassword", functionsToClear: [setEmail, setPassword]})}}
-              >
+              <Text style={authenticationStyle({isDarkMode}).errorText}>
                 {t("Login.NotFound")}
               </Text>
             </View>
           )}
-          <Text style={authenticationStyle({isDarkMode}).forgotPasswordText}>
+          <Text
+            style={authenticationStyle({isDarkMode}).forgotPasswordText}
+            onPress={() => {ChangeScreen({navigation, destination: "ForgotPassword", functionsToClear: [setEmail, setPassword]})}}
+          >
             {t("Login.ForgotPassword")}
           </Text>
         </View>

@@ -56,7 +56,7 @@ const RegisterScreen = ({navigation}: any) => {
             }
           },
           onFailure: (error) => {
-            Toaster({type: 'error', title: "Register.RegisterFailed", text: t("Register.RegisterFailedText")});
+            Toaster({type: 'error', title: t("Register.RegisterFailed"), text: t("Register.RegisterFailedText")});
             console.error('Register failed. Error:', error);
           },
         });
