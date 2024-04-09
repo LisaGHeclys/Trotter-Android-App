@@ -1,24 +1,30 @@
 import {StyleSheet, Text, View} from "react-native";
 
 type DividerParams = {
-  text: string
+  text?: string,
 }
 
 const DividerComponent = ({text}: DividerParams) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.divider}/>
-      <Text>
-        {text}
-      </Text>
-      <View style={styles.divider}/>
+    <View style={styles({text}).container}>
+      {text ? (
+        <>
+          <View style={styles({text}).divider}/>
+            <Text>
+              {text}
+            </Text>
+          <View style={styles({text}).divider}/>
+        </>
+        ) : (
+        <View style={styles({text}).divider}/>
+      )}
     </View>
   )
 }
 
-const styles = StyleSheet.create({
+const styles = ({text}: DividerParams) => StyleSheet.create({
   container: {
-    paddingTop: 15,
+    paddingTop: 20,
     paddingBottom: 15,
     width: "80%",
     display: "flex",
@@ -27,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   divider: {
-    width: "40%",
+    width: text ? "40%" : "100%",
     borderColor: "#16161A",
     borderWidth: 0.5,
   }

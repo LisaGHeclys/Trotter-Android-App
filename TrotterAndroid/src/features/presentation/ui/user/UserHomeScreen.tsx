@@ -1,20 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Keyboard } from 'react-native';
 import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
 import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import {TripDataParams} from "../../../model/TripsModel.tsx";
+import { TripDataParams, TripsJsonData } from "../../../model/TripsModel.tsx";
 import InputComponent from "../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
 import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {weekColors} from "../../../../core/utils/GlobalStyle.tsx";
-import Routes from "./Routes.tsx";
+import DisplayRoutes from "./DisplayRoutes.tsx";
+import {
+  TourGuideZone,
+  useTourGuideController,
+} from 'rn-tourguide'
+import { useTranslation } from "react-i18next";
+import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
-const UserHomeScreen = ({navigation}: any) => {
+const UserHomeScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
@@ -24,20 +29,35 @@ const UserHomeScreen = ({navigation}: any) => {
     lon: 4.834277,
     cityName: "Lyon",
   })
-  const [jsonData, setJsonData] = useState<{
-    features: {
-      geometry: {
-        coordinates: number[];
-      };
-      properties: {
-        name: string;
-      };
-    }[];
-  } | null>(null);
-  const [routes, setRoutes] = useState<{
-    [id: string]: Mapbox.VectorSource;
-  }>({});
-  const [itineraryDay, setItineraryDay] = useState<number>(3);
+  const [retrieveTripData, setRetrieveTripData] = useState<TripsJsonData | null>(null);
+  const [itineraryDay, setItineraryDay] = useState<number>(1);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [modalSaveVisible, setModalSaveVisible] = useState<boolean>(false);
+  const [modalSaveIsConfirmed, setModalSaveIsConfirmed] = useState<boolean>(false);
+  const [inputNameSavedTrip, setInputNameSavedTrip] = useState<string>("");
+  const { t } = useTranslation();
+
+  const {
+    canStart,
+    start,
+    stop,
+    eventEmitter,
+  } = useTourGuideController()
+
+  const RunTourGuide = async () => {
+    try {
+      if (canStart && await AsyncStorage.getItem("isTourGuideDone") === 'false') {
+        start()
+        AsyncStorage.setItem("isTourGuideDone", 'true')
+      }
+    } catch (error) {
+      console.error('Error during the tour guide:', error);
+    }
+  }
+
+  const handleOnStart = () => console.log('Start tour')
+  const handleOnStop = () => console.log('Tour done')
+  const handleOnStepChange = () => console.log(`Tour next`)
 
   const handleGenerateTrip = async () => {
     try {
@@ -45,25 +65,18 @@ const UserHomeScreen = ({navigation}: any) => {
         onSuccess: async (response) => {
           const dataToJSON = await response.json();
           if (response.ok) {
-            setJsonData(dataToJSON);
-            if (dataToJSON.routes) {
-              for (const route of dataToJSON.routes) {
-                const index = dataToJSON.routes.indexOf(route);
-                if (!route) continue;
-                setRoutes((old) => ({
-                  ...old,
-                  [index]: route.route,
-                }));
-              }
-            }
+            setRetrieveTripData(dataToJSON);
+            Toaster({type: 'success', title: t("City.CitySuccess")});
           } else {
-            throw new Error(dataToJSON?.code || 'Unknown error.');
+            console.error(dataToJSON?.code || 'Unknown error.');
           }
         },
         onFailure: (error) => {
+          Toaster({type: 'error', title: t("City.CityFail")});
           console.error('Generation failed. Error:', error);
         }
       })
+      setIsSaved(false);
     } catch (error) {
       console.error('Unexpected error during generation of a trip:', error);
     } finally {
@@ -72,6 +85,7 @@ const UserHomeScreen = ({navigation}: any) => {
   }
 
   const handleSearchCity = async () => {
+    Keyboard.dismiss();
     setIsLoading(true);
     try {
       await CityRepositoryImpl.getCoordinates(city, {
@@ -84,10 +98,11 @@ const UserHomeScreen = ({navigation}: any) => {
                 lon: resToJSON?.lon,
                 cityName: resToJSON?.name,
               })
+              setCity('');
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
-          } catch (error) {}
+          } catch (error) { }
         },
         onFailure: (error) => {
           console.error('City search failed. Error:', error);
@@ -95,6 +110,33 @@ const UserHomeScreen = ({navigation}: any) => {
       })
     } catch (error) {
       console.error('Unexpected error during the search of the city:', error);
+    }
+  }
+
+  const handleSaveTrip = async () => {
+    if (retrieveTripData) {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        await TripsRepositoryImpl.save(Date.now(), Date.now(), [0, 0], (tripData.cityName ? tripData.cityName : ""), retrieveTripData, (token ? token : ""), {
+          onSuccess: async (response) => {
+            await response.json();
+            if (response.ok) {
+              Toaster({type: 'success', title: t("Trips.SaveSuccess")});
+              setIsSaved(true);
+            } else {
+              console.error('Unknown error.');
+            }
+          },
+          onFailure: (error) => {
+            console.error('Call to save the trip failed:', error);
+            Toaster({type: 'error', title: t("Trips.SaveFail")});
+          },
+        });
+      } catch (error) {
+        console.error('Unexpected error during the save of the trip:', error);
+      }
+    } else {
+      console.error('No trip data to save.');
     }
   }
 
@@ -110,6 +152,46 @@ const UserHomeScreen = ({navigation}: any) => {
     setIsLoading(false)
   }
 
+  const loadSavedTrip = async () => {
+    try {
+      const tripToOpen = await AsyncStorage.getItem("tripToOpen");
+      if (tripToOpen) {
+        setIsLoading(true);
+        const parsedTrip = JSON.parse(tripToOpen);
+
+        await AsyncStorage.removeItem("tripToOpen");
+        setRetrieveTripData({ features: parsedTrip.tripData.features, routes: parsedTrip.tripData.routes });
+        setTripData({
+          lat: (parsedTrip.housingCoordinates[0] !== 0 ? parsedTrip.housingCoordinates[0] : parsedTrip.tripData.routes[0].route.features[0].geometry.coordinates[0][1]),
+          lon: (parsedTrip.housingCoordinates[1] !== 0 ? parsedTrip.housingCoordinates[0] : parsedTrip.tripData.routes[0].route.features[0].geometry.coordinates[0][0]),
+          cityName: parsedTrip.cityName,
+        });
+        setIsLoading(false);
+        setIsSaved(true);
+      }
+    } catch (error) {
+      console.error('Error loading saved trip:', error);
+    }
+  }
+
+  useEffect(() => {
+    RunTourGuide()
+  }, [canStart])
+
+  useEffect(() => {
+    if (eventEmitter == null) { return }
+
+    eventEmitter.on('start', handleOnStart)
+    eventEmitter.on('stop', handleOnStop)
+    eventEmitter.on('stepChange', handleOnStepChange)
+
+    return () => {
+      eventEmitter.off('start', handleOnStart)
+      eventEmitter.off('stop', handleOnStop)
+      eventEmitter.off('stepChange', handleOnStepChange)
+    }
+  }, [])
+
   useEffect(() => {
     city !== "" && handleGenerateTrip();
   }, [tripData]);
@@ -118,24 +200,31 @@ const UserHomeScreen = ({navigation}: any) => {
     getToken();
   }, []);
 
-  /*{Object.keys(routes).map((route, index) => (
-   <MapboxGL.ShapeSource id={index.toString()} shape={}>
-   <MapboxGL.LineLayer id={index.toString()} style={{lineColor: weekColors[index]}} />
-   </MapboxGL.ShapeSource>
-   ))}*/
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      loadSavedTrip();
+    });
+  }, [navigation]);
 
   //should I request permission from here ?
   return (
     <>
       <View style={styles.page}>
         <View style={styles.researchBar}>
-          <InputComponent
-            placeholder={"ex: Lyon"}
-            value={city}
-            setValue={setCity}
-            backgroundColor={"white"}
-          />
-          <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45}/>
+          <TourGuideZone zone={1} text={t("AppTour.Search")} borderRadius={16}>
+            <InputComponent
+              placeholder={"ex: Lyon"}
+              value={city}
+              setValue={setCity}
+              backgroundColor={"white"}
+            />
+          </TourGuideZone>
+          <TourGuideZone zone={3} text={t("AppTour.SearchConfirm")} borderRadius={16}>
+            <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45} />
+          </TourGuideZone>
+          <TourGuideZone zone={2} text={t("AppTour.SaveItinerary")} borderRadius={16}>
+            <ButtonComponent disabled={isSaved} onPress={handleSaveTrip} title={"↓"} width={45} />
+          </TourGuideZone>
         </View>
         <View style={styles.container}>
           <Mapbox.MapView
@@ -145,13 +234,13 @@ const UserHomeScreen = ({navigation}: any) => {
           >
             <Mapbox.Camera
               centerCoordinate={[tripData.lon, tripData.lat]}
-              zoomLevel={11.5}
+              zoomLevel={12.5}
             />
-
+            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay} />}
           </Mapbox.MapView>
         </View>
       </View>
-      {isLoading && <LoadingComponent opacity={0.95}/>}
+      {isLoading && <LoadingComponent opacity={0.95} />}
     </>
   )
 }
@@ -181,7 +270,23 @@ const styles = StyleSheet.create({
     top: "2%",
     position: "absolute",
     zIndex: 5,
-  }
+  },
+  tripSavedModal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tripSavedModalTextContainer: {
+    height: "10%",
+    width: "50%",
+    backgroundColor: "white",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderColor: "black",
+    borderWidth: 1,
+  },
 });
 
 export default UserHomeScreen;
