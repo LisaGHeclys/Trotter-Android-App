@@ -54,10 +54,10 @@
         "fr": "French"
     },
     "AppTour": {
-        "Map": "Hey, welcome to the Trotter app tour !\n\nThis is the map, where you can see all the iteneraries we plan for you !",
-        "Search": "You can search for iteneraries here !",
-        "SearchConfirm": "And once you know what you're looking for, you can press this button, try looking for an itenary in Lyon !",
-        "SaveItinerary": "Using this button, you can save an itenary for later !",
+        "Map": "Hey, welcome to the Trotter app tour !\n\nThis is the map, where you can see all the itineraries we plan for you !",
+        "Search": "You can search for itineraries here !",
+        "SearchConfirm": "And once you know what you're looking for, you can press this button, try looking for an itinerary in Lyon !",
+        "SaveItinerary": "Using this button, you can save an itinerary for later !",
         "Prev": "Previous",
         "Next": "Next",
         "Skip": "Skip",

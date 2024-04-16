@@ -2,7 +2,7 @@ import React from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faBookmark, faGlobe, faHeart, faUser} from "@fortawesome/free-solid-svg-icons";
-import UserHomeScreen from "../../features/presentation/ui/user/UserHomeScreen.tsx";
+import UserHomeScreen from "../../features/presentation/ui/user/homescreen/UserHomeScreen.tsx";
 import UserSavedTripsScreen from "../../features/presentation/ui/user/UserSavedTripsScreen.tsx";
 import UserLikedScreen from "../../features/presentation/ui/user/UserLikedScreen.tsx";
 import UserSettingsNavigation from "./UserSettingsNavigation.tsx";

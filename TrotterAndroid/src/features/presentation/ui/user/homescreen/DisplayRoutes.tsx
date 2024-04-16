@@ -1,8 +1,8 @@
 import { FC } from "react";
 import React from "react";
 import MapboxGL from "@rnmapbox/maps";
-import {weekColors} from "../../../../core/utils/style/GlobalStyle.tsx";
-import {TripsJsonData} from "../../../model/TripsModel.tsx";
+import {weekColors} from "../../../../../core/utils/style/GlobalStyle.tsx";
+import {TripsJsonData} from "../../../../model/TripsModel.tsx";
 
 type RoutesProps = {
   retrieveTripData: TripsJsonData;

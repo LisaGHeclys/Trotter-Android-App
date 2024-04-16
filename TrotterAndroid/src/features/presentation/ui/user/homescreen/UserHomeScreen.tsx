@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import {View, StyleSheet, Keyboard, Pressable, Text} from 'react-native';
+import {View, StyleSheet, Keyboard, Pressable, Text, Modal} from 'react-native';
 import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
-import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
-import LoadingComponent from "../../../../core/component/LoadingComponent.tsx";
-import { TripDataParams, TripsJsonData } from "../../../model/TripsModel.tsx";
-import InputComponent from "../../../../core/component/InputComponent.tsx";
-import CityRepositoryImpl from "../../../data/CityRepositoryImpl.tsx";
-import ButtonComponent from "../../../../core/component/ButtonComponent.tsx";
+import TripsRepositoryImpl from "../../../../data/TripsRepositoryImpl.tsx";
+import LoadingComponent from "../../../../../core/component/LoadingComponent.tsx";
+import { TripDataParams, TripsJsonData } from "../../../../model/TripsModel.tsx";
+import InputComponent from "../../../../../core/component/InputComponent.tsx";
+import CityRepositoryImpl from "../../../../data/CityRepositoryImpl.tsx";
+import ButtonComponent from "../../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DisplayRoutes from "./DisplayRoutes.tsx";
 import {
@@ -15,12 +15,19 @@ import {
   useTourGuideController,
 } from 'rn-tourguide'
 import { useTranslation } from "react-i18next";
-import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
-import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
+import Toaster from "../../../../../core/utils/toaster/Toaster.tsx";
+import FilterModal from "./component/FilterModal.tsx";
+import {GlobalColors} from "../../../../../core/utils/style/GlobalStyle.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {GlobalColors} from "../../../../core/utils/style/GlobalStyle.tsx";
+import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
+
+export enum TransportationTypes {
+  driving = "driving",
+  walking = "walking",
+  cycling = "cycling",
+}
 
 const UserHomeScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -31,12 +38,15 @@ const UserHomeScreen = ({ navigation }: any) => {
     lon: 4.834277,
     cityName: "Lyon",
   })
+  const [transportationType, setTransportationType] = useState<TransportationTypes>(TransportationTypes.walking);
   const [retrieveTripData, setRetrieveTripData] = useState<TripsJsonData | null>(null);
   const [itineraryDay, setItineraryDay] = useState<number>(1);
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [modalSaveVisible, setModalSaveVisible] = useState<boolean>(false);
   const [modalSaveIsConfirmed, setModalSaveIsConfirmed] = useState<boolean>(false);
   const [inputNameSavedTrip, setInputNameSavedTrip] = useState<string>("");
+  const [openSearch, setOpenSearch] = useState<boolean>(false);
+  const [openSettings, setOpenSettings] = useState<boolean>(false);
   const { t } = useTranslation();
 
   const {
@@ -227,13 +237,34 @@ const UserHomeScreen = ({ navigation }: any) => {
           {/*<TourGuideZone zone={3} text={t("AppTour.SearchConfirm")} borderRadius={16}>*/}
           {/*  <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45} />*/}
           {/*</TourGuideZone>*/}
-          <Pressable style={styles.researchBar} onPress={() => {}}>
+          {/*----*/}
+          {/*<Modal*/}
+          {/*  animationType="slide"*/}
+          {/*  transparent={true}*/}
+          {/*  visible={openSearch}*/}
+          {/*  onRequestClose={() => setOpenSearch(false)}>*/}
+          {/*  <View style={styles.modalContainer}>*/}
+          {/*    <View >*/}
+          {/*      <Text>Search</Text>*/}
+          {/*      <Pressable onPress={() => setOpenSearch(false)}>*/}
+          {/*        <Text>Hide Modal</Text>*/}
+          {/*      </Pressable>*/}
+          {/*    </View>*/}
+          {/*  </View>*/}
+          {/*</Modal>*/}
+          <Pressable style={styles.researchBar} onPress={() => setOpenSearch(true)}>
             <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color={"#AAA"} />
             <Text>
               ex: Lyon
             </Text>
           </Pressable>
-          <Pressable style={styles.settingsButton} onPress={() => {}}>
+          <FilterModal
+            openSettings={openSettings}
+            setOpenSettings={setOpenSettings}
+            transportationType={transportationType}
+            setTransportationType={setTransportationType}
+          />
+          <Pressable style={styles.settingsButton} onPress={() => setOpenSettings(true)}>
             <FontAwesomeIcon icon={faSliders} size={20} color={"#AAA"} />
           </Pressable>
         </View>
@@ -322,7 +353,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: "#AAA",
     borderWidth: 1,
-  }
+  },
 });
 
 export default UserHomeScreen;

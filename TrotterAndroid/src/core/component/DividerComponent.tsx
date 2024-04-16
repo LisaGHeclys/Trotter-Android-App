@@ -34,7 +34,7 @@ const styles = ({text}: DividerParams) => StyleSheet.create({
   },
   divider: {
     width: text ? "40%" : "100%",
-    borderColor: "#16161A",
+    borderColor: "#AAA",
     borderWidth: 0.5,
   }
 });
