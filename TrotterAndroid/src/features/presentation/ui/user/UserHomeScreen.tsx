@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Keyboard } from 'react-native';
+import {View, StyleSheet, Keyboard, Pressable, Text} from 'react-native';
 import MapboxGL from "@rnmapbox/maps";
 import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../data/TripsRepositoryImpl.tsx";
@@ -16,12 +16,14 @@ import {
 } from 'rn-tourguide'
 import { useTranslation } from "react-i18next";
 import Toaster from "../../../../core/utils/toaster/Toaster.tsx";
+import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {GlobalColors} from "../../../../core/utils/style/GlobalStyle.tsx";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
 const UserHomeScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const [city, setCity] = useState<string>("");
   const [tripData, setTripData] = useState<TripDataParams>({
@@ -210,21 +212,30 @@ const UserHomeScreen = ({ navigation }: any) => {
   return (
     <>
       <View style={styles.page}>
-        <View style={styles.researchBar}>
-          <TourGuideZone zone={1} text={t("AppTour.Search")} borderRadius={16}>
-            <InputComponent
-              placeholder={"ex: Lyon"}
-              value={city}
-              setValue={setCity}
-              backgroundColor={"white"}
-            />
-          </TourGuideZone>
-          <TourGuideZone zone={3} text={t("AppTour.SearchConfirm")} borderRadius={16}>
-            <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45} />
-          </TourGuideZone>
-          <TourGuideZone zone={2} text={t("AppTour.SaveItinerary")} borderRadius={16}>
-            <ButtonComponent disabled={isSaved} onPress={handleSaveTrip} title={"↓"} width={45} />
-          </TourGuideZone>
+        <View style={styles.researchBarContainer}>
+          {/*<TourGuideZone zone={1} text={t("AppTour.Search")} borderRadius={16}>*/}
+          {/*  <InputComponent*/}
+          {/*    placeholder={"ex: Lyon"}*/}
+          {/*    value={city}*/}
+          {/*    setValue={setCity}*/}
+          {/*    backgroundColor={"white"}*/}
+          {/*  />*/}
+          {/*</TourGuideZone>*/}
+          {/*<TourGuideZone zone={2} text={t("AppTour.SaveItinerary")} borderRadius={16}>*/}
+          {/*  <ButtonComponent disabled={isSaved} onPress={handleSaveTrip} title={"↓"} width={45} />*/}
+          {/*</TourGuideZone>*/}
+          {/*<TourGuideZone zone={3} text={t("AppTour.SearchConfirm")} borderRadius={16}>*/}
+          {/*  <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45} />*/}
+          {/*</TourGuideZone>*/}
+          <Pressable style={styles.researchBar} onPress={() => {}}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color={"#AAA"} />
+            <Text>
+              ex: Lyon
+            </Text>
+          </Pressable>
+          <Pressable style={styles.settingsButton} onPress={() => {}}>
+            <FontAwesomeIcon icon={faSliders} size={20} color={"#AAA"} />
+          </Pressable>
         </View>
         <View style={styles.container}>
           <Mapbox.MapView
@@ -260,9 +271,10 @@ const styles = StyleSheet.create({
   map: {
     flex: 1
   },
-  researchBar: {
+  researchBarContainer: {
     width: "100%",
     paddingRight: 20,
+    paddingLeft: 20,
     flexDirection: "row",
     display: "flex",
     alignItems: "center",
@@ -270,6 +282,19 @@ const styles = StyleSheet.create({
     top: "2%",
     position: "absolute",
     zIndex: 5,
+  },
+  researchBar: {
+    height: 45,
+    width: "80%",
+    backgroundColor: GlobalColors.backgroundColor.light,
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: 20,
+    gap: 10,
+    flexDirection: "row",
+    borderRadius: 50,
+    borderColor: "#AAA",
+    borderWidth: 1,
   },
   tripSavedModal: {
     flex: 1,
@@ -279,7 +304,7 @@ const styles = StyleSheet.create({
   tripSavedModalTextContainer: {
     height: "10%",
     width: "50%",
-    backgroundColor: "white",
+    backgroundColor: GlobalColors.backgroundColor.light,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -287,6 +312,17 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
   },
+  settingsButton: {
+    height: 45,
+    width: 45,
+    backgroundColor: GlobalColors.backgroundColor.light,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    borderColor: "#AAA",
+    borderWidth: 1,
+  }
 });
 
 export default UserHomeScreen;

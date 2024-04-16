@@ -12,6 +12,7 @@ type ButtonParams = {
   onPress: () => void,
   disabled?: boolean,
   width?: number,
+  children?: React.ReactNode
 }
 
 type ButtonProps = {
@@ -20,12 +21,13 @@ type ButtonProps = {
   width?: number,
 }
 
-const ButtonComponent: React.FC<ButtonParams> = ({title, theme = ThemeEnum.Primary, onPress, disabled = false, width = 160}) => {
+const ButtonComponent: React.FC<ButtonParams> = ({title, theme = ThemeEnum.Primary, onPress, disabled = false, width = 160, children}) => {
   return (
     <Pressable style={styles({theme, disabled, width}).container} onPress={onPress} disabled={disabled}>
-      <Text style={styles({theme, disabled}).title}>
+      {title && <Text style={styles({theme, disabled}).title}>
         {title}
-      </Text>
+      </Text>}
+      {children}
     </Pressable>
   )
 }
