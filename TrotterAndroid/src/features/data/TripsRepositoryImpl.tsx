@@ -1,5 +1,6 @@
 import {TripsRepository} from "../domain/TripsRepository.tsx";
 import {Callback, headers, MOBILE_SERVER_URL} from "../../core/utils/api/ApiUtils.ts";
+import {TransportationTypes} from "../presentation/ui/user/homescreen/UserHomeScreen.tsx";
 
 class TripsRepositoryImpl implements TripsRepository {
   async delete(token: string, id: string, callback: Callback): Promise<void> {
@@ -20,7 +21,7 @@ class TripsRepositoryImpl implements TripsRepository {
   async edit(name: string, groupId: string, mapping: {}, properties: {}): Promise<void> {
   }
 
-  async generate(token: string, lon: number, lat: number, days: number, callback: Callback): Promise<void> {
+  async generate(token: string, lon: number, lat: number, days: number, transportationType: TransportationTypes, callback: Callback): Promise<void> {
     try {
       const response = await fetch(`${MOBILE_SERVER_URL}/IA`, {
         method: 'POST',
@@ -32,6 +33,7 @@ class TripsRepositoryImpl implements TripsRepository {
           lon: lon,
           lat: lat,
           days: days,
+          transportMean: transportationType,
         }),
       })
       callback.onSuccess(response);

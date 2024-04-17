@@ -5,9 +5,7 @@ import Mapbox from '@rnmapbox/maps';
 import TripsRepositoryImpl from "../../../../data/TripsRepositoryImpl.tsx";
 import LoadingComponent from "../../../../../core/component/LoadingComponent.tsx";
 import { TripDataParams, TripsJsonData } from "../../../../model/TripsModel.tsx";
-import InputComponent from "../../../../../core/component/InputComponent.tsx";
 import CityRepositoryImpl from "../../../../data/CityRepositoryImpl.tsx";
-import ButtonComponent from "../../../../../core/component/ButtonComponent.tsx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DisplayRoutes from "./DisplayRoutes.tsx";
 import {
@@ -16,10 +14,10 @@ import {
 } from 'rn-tourguide'
 import { useTranslation } from "react-i18next";
 import Toaster from "../../../../../core/utils/toaster/Toaster.tsx";
-import FilterModal from "./component/FilterModal.tsx";
 import {GlobalColors} from "../../../../../core/utils/style/GlobalStyle.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faMagnifyingGlass, faSliders} from "@fortawesome/free-solid-svg-icons";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import SearchModal from "./component/SearchModal.tsx";
 
 MapboxGL.setAccessToken(process.env.REACT_APP_MAPBOX_DOWNLOADS_TOKEN || '');
 
@@ -41,9 +39,9 @@ const UserHomeScreen = ({ navigation }: any) => {
   const [transportationType, setTransportationType] = useState<TransportationTypes>(TransportationTypes.walking);
   const [interests, setInterests] = useState<string>("");
   const [radiusArea, setRadiusArea] = useState<number>(0);
+  const [days, setDays] = useState<number>(1);
 
   const [retrieveTripData, setRetrieveTripData] = useState<TripsJsonData | null>(null);
-  const [itineraryDay, setItineraryDay] = useState<number>(1);
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [modalSaveVisible, setModalSaveVisible] = useState<boolean>(false);
   const [modalSaveIsConfirmed, setModalSaveIsConfirmed] = useState<boolean>(false);
@@ -76,7 +74,7 @@ const UserHomeScreen = ({ navigation }: any) => {
 
   const handleGenerateTrip = async () => {
     try {
-      await TripsRepositoryImpl.generate(token, tripData.lon, tripData?.lat, 3, {
+      await TripsRepositoryImpl.generate(token, tripData.lon, tripData?.lat, days, transportationType, {
         onSuccess: async (response) => {
           const dataToJSON = await response.json();
           if (response.ok) {
@@ -113,7 +111,6 @@ const UserHomeScreen = ({ navigation }: any) => {
                 lon: resToJSON?.lon,
                 cityName: resToJSON?.name,
               })
-              setCity('');
             } else {
               throw new Error(resToJSON?.Message || 'Unknown error.');
             }
@@ -226,13 +223,6 @@ const UserHomeScreen = ({ navigation }: any) => {
     <>
       <View style={styles.page}>
         <View style={styles.researchBarContainer}>
-          {/*<TourGuideZone zone={1} text={t("AppTour.Search")} borderRadius={16}>*/}
-          {/*  <InputComponent*/}
-          {/*    placeholder={"ex: Lyon"}*/}
-          {/*    value={city}*/}
-          {/*    setValue={setCity}*/}
-          {/*    backgroundColor={"white"}*/}
-          {/*  />*/}
           {/*</TourGuideZone>*/}
           {/*<TourGuideZone zone={2} text={t("AppTour.SaveItinerary")} borderRadius={16}>*/}
           {/*  <ButtonComponent disabled={isSaved} onPress={handleSaveTrip} title={"↓"} width={45} />*/}
@@ -241,36 +231,26 @@ const UserHomeScreen = ({ navigation }: any) => {
           {/*  <ButtonComponent onPress={handleSearchCity} disabled={city == ''} width={45} />*/}
           {/*</TourGuideZone>*/}
           {/*----*/}
-          {/*<Modal*/}
-          {/*  animationType="slide"*/}
-          {/*  transparent={true}*/}
-          {/*  visible={openSearch}*/}
-          {/*  onRequestClose={() => setOpenSearch(false)}>*/}
-          {/*  <View style={styles.modalContainer}>*/}
-          {/*    <View >*/}
-          {/*      <Text>Search</Text>*/}
-          {/*      <Pressable onPress={() => setOpenSearch(false)}>*/}
-          {/*        <Text>Hide Modal</Text>*/}
-          {/*      </Pressable>*/}
-          {/*    </View>*/}
-          {/*  </View>*/}
-          {/*</Modal>*/}
-          <Pressable style={styles.researchBar} onPress={() => setOpenSearch(true)}>
-            <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color={"#AAA"} />
-            <Text>
-              ex: Lyon
-            </Text>
-          </Pressable>
-          <FilterModal
+          <SearchModal
+            city={city}
+            setCity={setCity}
+            openSearch={openSearch}
+            setOpenSearch={setOpenSearch}
+            days={days}
+            setDays={setDays}
             openSettings={openSettings}
             setOpenSettings={setOpenSettings}
             transportationType={transportationType}
             setTransportationType={setTransportationType}
             radiusArea={radiusArea}
             setRadiusArea={setRadiusArea}
+            handleSearchCity={handleSearchCity}
           />
-          <Pressable style={styles.settingsButton} onPress={() => setOpenSettings(true)}>
-            <FontAwesomeIcon icon={faSliders} size={20} color={"#AAA"} />
+          <Pressable style={styles.researchBar} onPress={() => setOpenSearch(true)}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} size={20} />
+            <Text>
+              {city == "" ? "ex: Lyon" : city}
+            </Text>
           </Pressable>
         </View>
         <View style={styles.container}>
@@ -281,9 +261,9 @@ const UserHomeScreen = ({ navigation }: any) => {
           >
             <Mapbox.Camera
               centerCoordinate={[tripData.lon, tripData.lat]}
-              zoomLevel={12.5}
+              zoomLevel={11.8}
             />
-            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={itineraryDay} />}
+            {retrieveTripData && <DisplayRoutes retrieveTripData={retrieveTripData} itineraryDay={days} />}
           </Mapbox.MapView>
         </View>
       </View>
@@ -321,7 +301,7 @@ const styles = StyleSheet.create({
   },
   researchBar: {
     height: 45,
-    width: "80%",
+    width: "100%",
     backgroundColor: GlobalColors.backgroundColor.light,
     display: "flex",
     alignItems: "center",
@@ -346,17 +326,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     borderColor: "black",
-    borderWidth: 1,
-  },
-  settingsButton: {
-    height: 45,
-    width: 45,
-    backgroundColor: GlobalColors.backgroundColor.light,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    borderColor: "#AAA",
     borderWidth: 1,
   },
 });

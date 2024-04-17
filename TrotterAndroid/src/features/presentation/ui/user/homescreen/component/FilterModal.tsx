@@ -2,7 +2,7 @@ import {Modal, Pressable, ScrollView, StyleSheet, Text, useColorScheme, View} fr
 import React from "react";
 import {GlobalColors, textStyle} from "../../../../../../core/utils/style/GlobalStyle.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faCarSide, faPersonBiking, faPersonWalking, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCarSide, faPersonBiking, faPersonWalking, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import ButtonComponent from "../../../../../../core/component/ButtonComponent.tsx";
 import DividerComponent from "../../../../../../core/component/DividerComponent.tsx";
 import {TransportationTypes} from "../UserHomeScreen.tsx";
@@ -44,7 +44,7 @@ const FilterModal = ({openSettings, setOpenSettings, transportationType, setTran
       <View style={styles.modalContainer}>
         <View style={styles.titleContainer}>
           <Pressable onPress={() => setOpenSettings(false)}>
-            <FontAwesomeIcon icon={faXmark} size={20} />
+            <FontAwesomeIcon icon={faArrowLeft} size={20} />
           </Pressable>
           <Text style={textStyle({isDarkMode}).subtitle}>{t("Filter.Filters")}</Text>
           <View/>
@@ -112,7 +112,7 @@ const FilterModal = ({openSettings, setOpenSettings, transportationType, setTran
           <Pressable onPress={handleClearAll}>
             <Text style={bottomStyles({toClear: transportationType == TransportationTypes.walking && radiusArea == 0}).bottomClearAllText}>{t("Filter.ClearAll")}</Text>
           </Pressable>
-          <ButtonComponent onPress={() => {}} title={t("Submit")}/>
+          <View/>
         </View>
       </View>
     </Modal>
@@ -197,8 +197,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: GlobalColors.backgroundColor.light,
     height: "100%",
-    marginTop: 15,
-    paddingBottom: 15,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
   },
