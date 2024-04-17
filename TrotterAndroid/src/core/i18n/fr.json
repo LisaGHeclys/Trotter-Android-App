@@ -10,6 +10,17 @@
     "Save": "Sauvegarder",
     "Delete": "Supprimer",
     "Submit": "Valider",
+    "Filter": {
+        "Filters": "Filtres",
+        "Transportation": "Mode de transport",
+        "ChooseTransportation": "Choisissez le mode de transport que vous préfèrez",
+        "Walking": "Marche",
+        "Cycling": "Vélo",
+        "Driving": "Conduite",
+        "Area": "Zone de recherche",
+        "ChooseArea": "Choisissez le périmètre de recherche afin que nous puissions vous génèrez votre trajet",
+        "ClearAll": "Tout effacer"
+    },
     "Settings": {
         "LogOut": "Déconnexion",
         "Parameters": "Paramètres",

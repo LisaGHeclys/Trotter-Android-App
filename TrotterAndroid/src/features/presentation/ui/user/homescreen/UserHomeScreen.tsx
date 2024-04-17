@@ -39,6 +39,9 @@ const UserHomeScreen = ({ navigation }: any) => {
     cityName: "Lyon",
   })
   const [transportationType, setTransportationType] = useState<TransportationTypes>(TransportationTypes.walking);
+  const [interests, setInterests] = useState<string>("");
+  const [radiusArea, setRadiusArea] = useState<number>(0);
+
   const [retrieveTripData, setRetrieveTripData] = useState<TripsJsonData | null>(null);
   const [itineraryDay, setItineraryDay] = useState<number>(1);
   const [isSaved, setIsSaved] = useState<boolean>(false);
@@ -263,6 +266,8 @@ const UserHomeScreen = ({ navigation }: any) => {
             setOpenSettings={setOpenSettings}
             transportationType={transportationType}
             setTransportationType={setTransportationType}
+            radiusArea={radiusArea}
+            setRadiusArea={setRadiusArea}
           />
           <Pressable style={styles.settingsButton} onPress={() => setOpenSettings(true)}>
             <FontAwesomeIcon icon={faSliders} size={20} color={"#AAA"} />

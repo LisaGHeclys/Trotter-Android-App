@@ -10,6 +10,17 @@
     "Save": "Save",
     "Delete": "Delete",
     "Submit": "Submit",
+    "Filter": {
+        "Filters": "Filters",
+        "Transportation": "Type of transportation",
+        "ChooseTransportation": "Choose the type of transportation you prefer",
+        "Walking": "Walking",
+        "Cycling": "Cycling",
+        "Driving": "Driving",
+        "Area": "Search area",
+        "ChooseArea": "Choose the perimeter that we will use to generate your trip",
+        "ClearAll": "Clear all"
+    },
     "Settings": {
         "LogOut": "Logged out",
         "Parameters": "Settings",
